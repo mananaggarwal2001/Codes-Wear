@@ -17,7 +17,7 @@ const Navbar = () => {
         }
     }
     return (
-        <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg'>
+        <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full'>
             <div className="logo md:mx-5">
                 <Link href={'/'}><Image src={logo} width={200} height={40} alt='codewear Logo' /></Link>
             </div>
@@ -33,7 +33,7 @@ const Navbar = () => {
                 <AiOutlineShoppingCart className=' text-xl md:text-2xl cursor-pointer' />
             </div>
 
-            <div ref={ref} className=" z-50 sidebar absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform translate-x-full duration-500 w-72 h-full">
+            <div ref={ref} className=" z-[10000000000] sidebar absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform translate-x-full duration-500 w-72 h-full">
                 <h2 className='font-bold text-xl text-center'>Shopping Cart</h2>
                 <span onClick={toggleCart} className='absolute top-5 right-3 text-2xl cursor-pointer text-pink-500'><AiFillCloseCircle />
                 </span>
