@@ -6,7 +6,9 @@ const Slug = () => {
   const { slug } = Router.query;
   const [Pin, setPin] = useState()
   const [Serviciability, setServicablity] = useState()
+  // function for checking the services whether the services are present in that particular state or not.
   const checkserviceablity = async () => {
+    // then we have use the fetch api for getting the pincodes from the backend server and to do the further services in the frontend services.
     let pin = await fetch('http://localhost:3000/api/pincode');
     let finalpincode = await pin.json();
     if (finalpincode.includes(Number.parseInt(Pin))) {
@@ -15,9 +17,12 @@ const Slug = () => {
       setServicablity(false)
     }
   }
+
+  // this is the event which is given by default in the function for getting the events.
   const handlePinChange = (e) => {
     setPin(e.target.value)
   }
+  
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -106,7 +111,7 @@ const Slug = () => {
               {
                 (Serviciability && Serviciability != null) &&
                 <div className="text-green-500 font-bold mt-3">
-                  Yay! This Pincode is Serviciable !!
+                  Yay! This Pincode is Serviceable !!
                 </div>
               }
 
