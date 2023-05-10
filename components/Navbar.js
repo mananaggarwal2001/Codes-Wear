@@ -17,7 +17,7 @@ const Navbar = () => {
         }
     }
     return (
-        <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full'>
+        <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full z-[100000000000]'>
             <div className="logo md:mx-5">
                 <Link href={'/'}><Image src={logo} width={200} height={40} alt='codewear Logo' /></Link>
             </div>
