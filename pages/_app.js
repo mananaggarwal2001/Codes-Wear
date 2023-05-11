@@ -9,8 +9,9 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     try {
-      if (localStorage.getItem('Cart')) {
+      if (localStorage.getItem('Cart') && localStorage.getItem('subtotal')) {
         setCart(JSON.parse(localStorage.getItem('Cart')))
+        setsubTotal(localStorage.getItem('subtotal'))
       }
     } catch (error) {
       console.log(error.message)
@@ -24,16 +25,23 @@ export default function App({ Component, pageProps }) {
     try {
 
       localStorage.setItem('Cart', JSON.stringify(myCart))
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error.message);
       localStorage.clear()
     }
-    let subt;
+    let subt = 0;
     let keys = Object.keys(Cart)
-    for (let i = 0; i < keys.length; i++) {
-      subt += myCart[keys[i]].Price * myCart[keys[i]].qty;
+    if (keys.length > 0) {
+      for (let i = 0; i < keys.length; i++) {
+        subt += myCart[keys[i]].Price * myCart[keys[i]].qty;
+      }
+      setsubTotal(subt)
+      localStorage.setItem('subtotal', subt);
+    } else if (keys.length <= 0) {
+      setCart({})
+      localStorage.clear()
     }
-    setsubTotal(subt)
   }
 
 
@@ -54,14 +62,16 @@ export default function App({ Component, pageProps }) {
   const clearCart = () => {
     setCart({})
     localStorage.removeItem('Cart')
+    localStorage.removeItem('subtotal')
   }
 
   // this is the remove cart function for removing the items in the cart.
   const removeFromCart = (itemCode, qty, Price, Name, size, variant) => {
     let myCart = Cart;
     // checking whether the given item is zero or not in the given cart.
-    if (myCart[itemCode]["qty"] <= 0) {
+    if (myCart[itemCode].qty === 0) {
       delete myCart[itemCode];
+      localStorage.removeItem('Cart')
     } else if (itemCode in Cart) {
       myCart[itemCode].qty = Cart[itemCode].qty - qty;
     }
