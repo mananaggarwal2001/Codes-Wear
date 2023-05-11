@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { AiOutlineShoppingCart, AiFillCloseCircle, AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { useRef } from 'react'
 import { BsFillBagCheckFill } from 'react-icons/Bs'
-const Navbar = () => {
+const Navbar = (props) => {
+    const { cart, addToCart, removeFromCart, clearCart, subTotal } = props
     const ref = useRef()
     const toggleCart = () => {
         if (ref.current.classList.contains('translate-x-full')) {
@@ -39,50 +40,30 @@ const Navbar = () => {
                 </span>
 
                 <ol className='list-decimal font-semibold'>
-                    <li>
-                        <div className="item flex my-5">
+                    {Object.keys(cart).length === 0 && <div className='flex justify-center items-center'>No items in Cart</div>
+                    }
+                    {
+                        Object.keys(cart).map((item) => {
+                            return (
+                                <li key={item}>
+                                    <div className="item flex my-5">
 
-                            <div className=' font-semibold'>T-Shirts - Wear the Code</div>
-                            <div className=' w-1/3 flex items-center justify-center font-semibold text-lg '>
-                                <AiFillMinusCircle className='cursor-pointer text-pink-500' /><span className='mx-2 text-sm'>1</span><AiFillPlusCircle className='cursor-pointer text-pink-500' /></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item flex my-5">
+                                        <div className=' font-semibold'>{cart[item].Name}</div>
+                                        <div className=' w-1/3 flex items-center justify-center font-semibold text-lg '>
 
-                            <div className=' font-semibold'>T-Shirts - Wear the Code</div>
-                            <div className=' w-1/3 flex items-center justify-center font-semibold text-lg '>
-                                <AiFillMinusCircle className='cursor-pointer text-pink-500' /><span className='mx-2 text-sm'>1</span><AiFillPlusCircle className='cursor-pointer text-pink-500' /></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item flex my-5">
+                                            <AiFillMinusCircle onClick={() => { removeFromCart(item, 1, cart[item].Price, cart[item].Name, cart[item].size, cart[item].variant) }} className='cursor-pointer text-pink-500' /><span className='mx-2 text-sm'>
+                                                {cart[item].qty}
+                                            </span><AiFillPlusCircle onClick={() => { addToCart(item, 1, cart[item].Price, cart[item].Name, cart[item].size, cart[item].variant) }} className='cursor-pointer text-pink-500' /></div>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
 
-                            <div className=' font-semibold'>T-Shirts - Wear the Code</div>
-                            <div className=' w-1/3 flex items-center justify-center font-semibold text-lg '>
-                                <AiFillMinusCircle className='cursor-pointer text-pink-500' /><span className='mx-2 text-sm'>1</span><AiFillPlusCircle className='cursor-pointer text-pink-500' /></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item flex my-5">
-
-                            <div className=' font-semibold'>T-Shirts - Wear the Code</div>
-                            <div className=' w-1/3 flex items-center justify-center font-semibold text-lg '>
-                                <AiFillMinusCircle className='cursor-pointer text-pink-500' /><span className='mx-2 text-sm'>1</span><AiFillPlusCircle className='cursor-pointer text-pink-500' /></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="item flex my-5">
-
-                            <div className=' font-semibold'>T-Shirts - Wear the Code</div>
-                            <div className=' w-1/3 flex items-center justify-center font-semibold text-lg '>
-                                <AiFillMinusCircle className='cursor-pointer text-pink-500' /><span className='mx-2 text-sm'>1</span><AiFillPlusCircle className='cursor-pointer text-pink-500' /></div>
-                        </div>
-                    </li>
                 </ol>
                 <div className='flex justify-center space-x-7'>
-                    <button className="flex justify-center items-center  mt-16 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='me-2' /> <span className='font-semibold'> CheckOut</span> </button>
-                    <button className="flex justify-center items-center  mt-16 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><span className='font-semibold'> Clear Cart</span> </button>
+                    <button className="flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='me-2' /> <span className='font-semibold'> CheckOut</span> </button>
+                    <button onClick={clearCart} className="flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><span className='font-semibold'> Clear Cart</span> </button>
                 </div>
             </div>
         </div>
