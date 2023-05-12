@@ -3,6 +3,7 @@ import React from 'react'
 import logo from '../pages/Images/logo.png'
 import Link from 'next/link'
 import { AiOutlineShoppingCart, AiFillCloseCircle, AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
+import { MdAccountCircle } from 'react-icons/md'
 import { useRef } from 'react'
 import { BsFillBagCheckFill } from 'react-icons/Bs'
 const Navbar = (props) => {
@@ -30,11 +31,14 @@ const Navbar = (props) => {
                     <Link href={'/websitepages/mugs'}><li className='hover:underline'>Mugs</li></Link>
                 </ul>
             </div>
-            <div onClick={toggleCart} className="cart absolute right-0 mx-3 top-5">
-                <AiOutlineShoppingCart className=' text-xl md:text-2xl cursor-pointer' />
+            <div className="cart flex  absolute right-0 mx-3 top-5 space-x-4">
+                <Link href={'websitepages/login'}>
+                    <MdAccountCircle className=' text-xl md:text-3xl cursor-pointer' />
+                </Link>
+                <AiOutlineShoppingCart onClick={toggleCart} className=' text-xl md:text-3xl cursor-pointer' />
             </div>
 
-            <div ref={ref} className={`sidebar absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform ${Object.keys(cart).length===0 ? 'translate-x-full' : 'translate-x-0'} duration-500 w-96 h-[100vh]`}>
+            <div ref={ref} className={`sidebar absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform ${Object.keys(cart).length === 0 ? 'translate-x-full' : 'translate-x-0'} duration-500 w-96 h-[100vh]`}>
                 <h2 className='font-bold text-xl text-center'>Shopping Cart</h2>
                 <span onClick={toggleCart} className='absolute top-5 right-3 text-2xl cursor-pointer text-pink-500'><AiFillCloseCircle />
                 </span>
