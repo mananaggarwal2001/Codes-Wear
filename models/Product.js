@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 // order schema is ready to be use in the codeswear website.
 
 const productSchema = new mongoose.Schema({
@@ -39,4 +39,5 @@ const productSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
+mongoose.models = {}
 export default mongoose.model('Product', productSchema);

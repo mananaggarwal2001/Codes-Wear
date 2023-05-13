@@ -31,4 +31,5 @@ const orderSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
+mongoose.modes= {}
 export default mongoose.model('Orders', orderSchema);
