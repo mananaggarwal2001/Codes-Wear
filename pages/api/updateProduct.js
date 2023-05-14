@@ -2,8 +2,8 @@ import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import Product from "@/models/Product";
 const handler = async (req, res) => {
+    console.log(req)
     if (req.method == 'POST') {
-        console.log(req.body)
         try {
             for (let i = 0; i < req.body.length; i++)
             {
