@@ -1,12 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
+import connectToMongo from '@/middleware/mongooose';
+connectToMongo()
 import { useRouter } from 'next/router'
+import Product from '@/models/Product';
 const Slug = (props) => {
   const { addToCart } = props;
   const Router = useRouter();
   const { slug } = Router.query;
   const [Pin, setPin] = useState()
   const [Serviciability, setServicablity] = useState()
+  const { product, variant } = props;
+  console.log(product, variant)
 
   // function for checking the services whether the services are present in that particular state or not.
   const checkserviceablity = async () => {
@@ -24,6 +29,14 @@ const Slug = (props) => {
   const handlePinChange = (e) => {
     setPin(e.target.value)
   }
+
+  const refreshVariant = (newSize, newColor) => {
+    let url = `http:localhost:3000/products/${variant[newColor][newSize]['Slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
+    window.location = url; // this option will redirect to that paritcular url by using the window.location method and redirect to the correct url.
+  }
+
+  const [color, setcolor] = useState(product.color)
+  const [size, setSize] = useState(product.size)
 
   return (
     <div>
@@ -73,20 +86,29 @@ const Slug = (props) => {
               </div>
               <p className="leading-relaxed">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-                <div className="flex">
-                  <span className="mr-3">Color</span>
-                  <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button className="border-2 border-gray-300 ml-1 bg-pink-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                <div className="flex space-x-1">
+                  <span className="mr-3 font-semibold">Color</span>
+
+                  {Object.keys(variant).includes('Red') && Object.keys(variant['Red']).includes(size) && <button className={`border-2  ${color ==='Red'? 'border-black':'border-gray-300'} bg-red-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+
+                  {Object.keys(variant).includes('Green') && Object.keys(variant['Green']).includes(size) && <button className={`border-2  ${color ==='Green'? 'border-black':'border-gray-300'} bg-green-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+
+                  {Object.keys(variant).includes('Blue') && Object.keys(variant['Blue']).includes(size) && <button className={`border-2 ${color ==='Blue'? 'border-black':'border-gray-300'} bg-blue-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+
+                  {Object.keys(variant).includes('Black') && Object.keys(variant['Black']).includes(size) && <button className={`border-2 ${color ==='Black'? 'border-black':'border-gray-300'} bg-black-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+
+                  {Object.keys(variant).includes('Yellow') && Object.keys(variant['Yellow']).includes(size) && <button className={`border-2 ${color ==='Yellow'? 'border-black':'border-gray-300'} bg-yellow-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
                 </div>
                 <div className="flex ml-6 items-center">
                   <span className="mr-3">Size</span>
                   <div className="relative">
-                    <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
-                      <option>SM</option>
-                      <option>M</option>
-                      <option>L</option>
-                      <option>XL</option>
+                    <select value={size} onChange={(e)=> refreshVariant(e.target.value, color)} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
+                      {Object.keys(variant[color]).includes('S') && <option value='S'>S</option>}
+                      {Object.keys(variant[color]).includes('M') && <option value='M'>M</option>}
+                      {Object.keys(variant[color]).includes('L') && <option value='L'>L</option>}
+                      {Object.keys(variant[color]).includes('XL') && <option value='XL'>XL</option>}
+                      {Object.keys(variant[color]).includes('XXL') && <option value='XXL'>XXL</option>}
+
                     </select>
                     <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                       <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4" viewBox="0 0 24 24">
@@ -99,7 +121,7 @@ const Slug = (props) => {
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">₹458.00</span>
                 <button className="flex items-center justify-center ml-8 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Buy Now</button>
-                <button onClick={() => { addToCart(slug, 1, 499, 'Wear the Code(XL/Red)', 'XL','Red') }} className="flex items-center justify-center ml-3 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Add To Cart</button>
+                <button onClick={() => { addToCart(slug, 1, 499, 'Wear the Code(XL/Red)', 'XL', 'Red') }} className="flex items-center justify-center ml-3 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Add To Cart</button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5" viewBox="0 0 24 24">
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
@@ -130,6 +152,25 @@ const Slug = (props) => {
       </section>
     </div>
   )
+}
+
+
+export async function getServerSideProps(context) {
+  let finalproduct = await Product.findOne({ slug: context.query.slug })// for finding the particular product in the database when the user click on the particular vairant.
+  let variants = await Product.find({ title: finalproduct.title }) // for finding the variants of the t-shirts for the same title and then show in the slug component.
+  let colorSizeSlug = {} // for storing the different colors in the given Slug for finding the variants of the TShirts which are available in the market.
+  for (let items of variants) {
+    if (Object.keys(colorSizeSlug).includes(items.color)) {
+      colorSizeSlug[items.color][items.size] = { slug: items.slug } // for making the object of the size variants according to the given color in the slug.
+    } else {
+      colorSizeSlug[items.color] = {} // if the color is not then we will make the empty object of the given color then we put the size variant according to the given slug.
+      colorSizeSlug[items.color][items.size] = { slug: items.slug } // then when the object is made then we will add the size variant in the correnpondance to the particular color given in the slug.
+    }
+  }
+
+  return {
+    props: { product: JSON.parse(JSON.stringify(finalproduct)), variant: JSON.parse(JSON.stringify(colorSizeSlug)) } // for returning the product and the variant for populating the particular slug page for finding the particular product.
+  };
 }
 
 export default Slug
