@@ -11,7 +11,6 @@ const Slug = (props) => {
   const [Pin, setPin] = useState()
   const [Serviciability, setServicablity] = useState()
   const { product, variant } = props;
-  console.log(product, variant)
 
   // function for checking the services whether the services are present in that particular state or not.
   const checkserviceablity = async () => {
@@ -31,7 +30,9 @@ const Slug = (props) => {
   }
 
   const refreshVariant = (newSize, newColor) => {
-    let url = `http:localhost:3000/products/${variant[newColor][newSize]['Slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
+
+    console.log(newSize, newColor)
+    let url = `http://localhost:3000/products/${variant[newColor][newSize]['slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
     window.location = url; // this option will redirect to that paritcular url by using the window.location method and redirect to the correct url.
   }
 
@@ -89,15 +90,15 @@ const Slug = (props) => {
                 <div className="flex space-x-1">
                   <span className="mr-3 font-semibold">Color</span>
 
-                  {Object.keys(variant).includes('Red') && Object.keys(variant['Red']).includes(size) && <button className={`border-2  ${color ==='Red'? 'border-black':'border-gray-300'} bg-red-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variant).includes('Red') && Object.keys(variant['Red']).includes(size) && <button onClick={()=>refreshVariant(size, 'Red')} className={`border-2  ${color ==='Red'? 'border-black':'border-gray-300'} bg-red-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
 
-                  {Object.keys(variant).includes('Green') && Object.keys(variant['Green']).includes(size) && <button className={`border-2  ${color ==='Green'? 'border-black':'border-gray-300'} bg-green-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variant).includes('Green') && Object.keys(variant['Green']).includes(size) && <button onClick={()=>refreshVariant(size, 'Green')} className={`border-2  ${color ==='Green'? 'border-black':'border-gray-300'} bg-green-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
 
-                  {Object.keys(variant).includes('Blue') && Object.keys(variant['Blue']).includes(size) && <button className={`border-2 ${color ==='Blue'? 'border-black':'border-gray-300'} bg-blue-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variant).includes('Blue') && Object.keys(variant['Blue']).includes(size) && <button onClick={()=>refreshVariant(size, 'Blue')} className={`border-2 ${color ==='Blue'? 'border-black':'border-gray-300'} bg-blue-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
 
-                  {Object.keys(variant).includes('Black') && Object.keys(variant['Black']).includes(size) && <button className={`border-2 ${color ==='Black'? 'border-black':'border-gray-300'} bg-black-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variant).includes('Black') && Object.keys(variant['Black']).includes(size) && <button onClick={()=>refreshVariant(size, 'Black')} className={`border-2 ${color ==='Black'? 'border-black':'border-gray-300'} bg-black-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
 
-                  {Object.keys(variant).includes('Yellow') && Object.keys(variant['Yellow']).includes(size) && <button className={`border-2 ${color ==='Yellow'? 'border-black':'border-gray-300'} bg-yellow-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variant).includes('Yellow') && Object.keys(variant['Yellow']).includes(size) && <button onClick={()=>refreshVariant(size, 'Yellow')} className={`border-2 ${color ==='Yellow'? 'border-black':'border-gray-300'} bg-yellow-500 rounded-full w-6 h-6 focus:outline-none`}></button>}
                 </div>
                 <div className="flex ml-6 items-center">
                   <span className="mr-3">Size</span>
@@ -158,6 +159,7 @@ const Slug = (props) => {
 export async function getServerSideProps(context) {
   let finalproduct = await Product.findOne({ slug: context.query.slug })// for finding the particular product in the database when the user click on the particular vairant.
   let variants = await Product.find({ title: finalproduct.title }) // for finding the variants of the t-shirts for the same title and then show in the slug component.
+  console.log(variants);
   let colorSizeSlug = {} // for storing the different colors in the given Slug for finding the variants of the TShirts which are available in the market.
   for (let items of variants) {
     if (Object.keys(colorSizeSlug).includes(items.color)) {
@@ -167,6 +169,9 @@ export async function getServerSideProps(context) {
       colorSizeSlug[items.color][items.size] = { slug: items.slug } // then when the object is made then we will add the size variant in the correnpondance to the particular color given in the slug.
     }
   }
+
+  console.log('color size slug is :- ')
+  console.log(colorSizeSlug);
 
   return {
     props: { product: JSON.parse(JSON.stringify(finalproduct)), variant: JSON.parse(JSON.stringify(colorSizeSlug)) } // for returning the product and the variant for populating the particular slug page for finding the particular product.
