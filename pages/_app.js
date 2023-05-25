@@ -1,11 +1,13 @@
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import '@/styles/globals.css'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function App({ Component, pageProps }) {
   const [Cart, setCart] = useState({})
   const [subTotal, setsubTotal] = useState(0)
+  const Router = useRouter();
 
   useEffect(() => {
     try {
@@ -56,6 +58,7 @@ export default function App({ Component, pageProps }) {
     }
     setCart(newCart)
     saveCart(newCart)
+
   }
 
   // clearCart method is being used for clearing the whole cart.
@@ -63,6 +66,16 @@ export default function App({ Component, pageProps }) {
     setCart({})
     localStorage.removeItem('Cart')
     localStorage.removeItem('subtotal')
+  }
+
+  const buyNow = (itemCode, qty, Price, Name, size, variant) => {
+    let newCart = Cart
+    setCart({})
+    newCart[itemCode]= {qty, Price, Name, size, variant}
+    setCart(newCart)
+    saveCart(newCart)
+    console.log(newCart)
+    Router.push('/websitepages/checkout')
   }
 
   // this is the remove cart function for removing the items in the cart.
@@ -81,7 +94,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Navbar cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
-      <Component cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
+      <Component buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
       <Footer />
     </>
   )
