@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
 
   // saveCart item is used for saving the item in the localStorage so that  the given items should persist on the reloading of the webpage.
   const saveCart = (myCart) => {
-
+    console.log(myCart)
     try {
 
       localStorage.setItem('Cart', JSON.stringify(myCart))
@@ -34,6 +34,7 @@ export default function App({ Component, pageProps }) {
     }
     let subt = 0;
     let keys = Object.keys(Cart)
+    console.log(keys.length)
     if (keys.length > 0) {
       for (let i = 0; i < keys.length; i++) {
         subt += myCart[keys[i]].Price * myCart[keys[i]].qty;
@@ -64,17 +65,18 @@ export default function App({ Component, pageProps }) {
   // clearCart method is being used for clearing the whole cart.
   const clearCart = () => {
     setCart({})
+    setsubTotal(0)
     localStorage.removeItem('Cart')
     localStorage.removeItem('subtotal')
   }
 
   const buyNow = (itemCode, qty, Price, Name, size, variant) => {
-    let newCart = Cart
-    setCart({})
-    newCart[itemCode]= {qty, Price, Name, size, variant}
+    let newCart = {}
+    newCart[itemCode] = { qty, Price, Name, size, variant }
     setCart(newCart)
-    saveCart(newCart)
-    console.log(newCart)
+    setsubTotal(newCart[itemCode].Price)
+    localStorage.setItem('subtotal', newCart[itemCode].Price);
+    localStorage.setItem('Cart', JSON.stringify(newCart))
     Router.push('/websitepages/checkout')
   }
 

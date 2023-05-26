@@ -38,7 +38,7 @@ const Navbar = (props) => {
                 <AiOutlineShoppingCart onClick={toggleCart} className=' text-xl md:text-3xl cursor-pointer' />
             </div>
 
-            <div ref={ref} className={`sidebar absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform ${Object.keys(cart).length === 0 ? 'translate-x-full' : 'translate-x-0'} duration-500 w-96 h-[100vh]`}>
+            <div ref={ref} className={`sidebar overflow-y-auto absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform ${Object.keys(cart).length === 0 ? 'translate-x-full' : 'translate-x-0'} duration-500 w-96 h-[100vh]`}>
                 <h2 className='font-bold text-xl text-center'>Shopping Cart</h2>
                 <span onClick={toggleCart} className='absolute top-5 right-3 text-2xl cursor-pointer text-pink-500'><AiFillCloseCircle />
                 </span>

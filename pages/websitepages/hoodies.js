@@ -1,127 +1,88 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import Product from '@/models/Product';
+connectToMongo();
 import Link from 'next/link'
-const hoodies = () => {
+import React from 'react'
+import connectToMongo from '@/middleware/mongooose'
+const hoodies = (props) => {
+  const { products } = props; // using the destructuring syntax for fetching all the products from the given link.
+  console.log(products)
   return (
     <div>
-      <section className="text-gray-600 body-font flex justify-around ">
+      <section className="text-gray-600 body-font flex justify-around">
         <div className="container px-5 py-24 ">
           <div className="flex flex-wrap items-center">
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
+            {Object.keys(products).length === 0 && <div className='mx-auto'>
+              <div className='font-semibold'>Sorry all the things are out of Stock. New Stock comming Soon.Stay Tuned!!!!!!!
               </div>
             </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
-            <div className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
-              <Link href={'../products/wear-the-code'} className="block relative  rounded overflow-hidden">
-                <img alt="ecommerce" className=" h-[40vh] block m-auto" src={'https://m.media-amazon.com/images/I/61Piw8KGZ0L._UY606_.jpg'} />
-              </Link>
-              <div className="mt-4 text-center">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">T-SHIRTS</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Wear the Code</h2>
-                <p className="mt-1">₹516.00</p>
-                <p className="mt-1">S, L, XL, XXL</p>
-              </div>
-            </div>
+            }
+            {
+              Object.keys(products).map((items) => {
+                return (
+                  <div key={products[items]._id} className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
+                    <Link href={`../products/${products[items].slug}`} className="block relative  rounded overflow-hidden">
+                      <img alt="ecommerce" className=" h-[40vh] block m-auto" src={products[items].img} />
+                      <div className="mt-4 text-center">
+                        <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1 uppercase">{products[items].category}</h3>
+                        <h2 className="text-gray-900 title-font text-lg font-medium">{products[items].title}</h2>
+                        <p className="mt-1">₹{products[items].price}</p>
+                        <div className="mt-1">
+                          {products[items].size.includes('S') && <span className='mx-1  border border-gray-700 px-1'>S</span>}
+                          {products[items].size.includes('M') && <span className='mx-1  border border-gray-700 px-1 '>M</span>}
+                          {products[items].size.includes('L') && <span className='mx-1  border border-gray-700 px-1 '>L</span>}
+                          {products[items].size.includes('XL') && <span className='mx-1 border border-gray-700 px-1'>XL</span>}
+                          {products[items].size.includes('XXL') && <span className='mx-1 border border-gray-700 px-1'>XXL</span>}
+                          {products[items].size.includes('XXXL') && <span className='mx-1 border border-gray-700 px-1 '>XXXL</span>}
+
+                        </div>
+                        <div className="mt-3">
+                          {products[items].color.includes('Red') && <button className=" mx-1 border-2 bg-red-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                          {products[items].color.includes('Blue') && <button className=" mx-1 border-2 bg-blue-900 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                          {products[items].color.includes('Black') && <button className=" mx-1 border-2 bg-black border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                          {products[items].color.includes('Green') && <button className=" mx-1 border-2 bg-green-900 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                          {products[items].color.includes('Yellow') && <button className=" mx-1 border-2 bg-yellow-400 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                          {products[items].color.includes('Purple') && <button className=" mx-1 border-2 bg-purple-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
       </section>
     </div>
   )
 }
+
+export async function getServerSideProps(context) {
+  let finalproducts = await Product.find({ category: 'hoodies' }) // for finding all the products from the database.
+  let hoods = {};
+  for (let item of finalproducts) {
+    if (item.title in hoods) {
+      if (!hoods[item.title].color.includes(item.color) && item.avaiableQty > 0) {
+        hoods[item.title].color.push(item.color)
+      }
+
+      if (!hoods[item.title].size.includes(item.size) && item.avaiableQty > 0) {
+        hoods[item.title].size.push(item.size)
+      }
+
+    } else {
+      hoods[item.title] = JSON.parse(JSON.stringify(item))
+      if (item.avaiableQty > 0) {
+        hoods[item.title].color = [item.color]
+        hoods[item.title].size = [item.size]
+      }
+
+    }
+  }
+  return {
+    props: { products: JSON.parse(JSON.stringify(hoods)) }, // will be passed to the page component as props
+  };
+}
+
 
 export default hoodies
