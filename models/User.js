@@ -6,16 +6,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
+    Email: {
         type: String,
         required: true,
         unique: true
     },
-    password: {
-        type: String, required: true
+    Password: {
+        type: String,
+        required: true
     }
 
 }, { timestamps: true })
 
-mongoose.models= {}
-export default mongoose.model('Product', userSchema);
+
+mongoose.models = {}
+export default mongoose.model('User', userSchema)

@@ -48,7 +48,7 @@ const Slug = (props) => {
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
         <ToastContainer
-          position="bottom-center"
+          position="bottom-left"
           autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
@@ -57,7 +57,7 @@ const Slug = (props) => {
           pauseOnFocusLoss={false}
           draggable
           pauseOnHover
-          theme="dark"
+          theme="light"
         />
         <div className="container px-5 py-12 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
