@@ -1,11 +1,15 @@
 import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import User from "@/models/User";
+import CryptoJS from "crypto-js";
 const handler = async (req, res) => {
     if (req.method == 'POST') {
         try {
-            console.log(req.body)
-            let finaluser = new User(req.body)
+            const { Name, Email } = req.body;
+            console.log(Name)
+            console.log(Email)
+
+            let finaluser = new User({ Name, Email, Password: CryptoJS.AES.encrypt(req.body.Password, 'Manan123').toString() })
             await finaluser.save()
             res.status(200).json({ finalresult: finaluser })
         } catch (error) {

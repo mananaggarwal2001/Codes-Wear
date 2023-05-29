@@ -1,15 +1,15 @@
 import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import User from "@/models/User";
-
+import CryptoJS from "crypto-js";
 const handler = async (req, res) => {
     if (req.method === 'POST') {
         try {
-
-            console.log(req.body)
             const user = await User.findOne({ Email: req.body.Email });
+            const bytes = CryptoJS.AES.decrypt(user.Password, 'Manan123');
+            const finalPassword = bytes.toString(CryptoJS.enc.Utf8)
             if (user) {
-                if (user.Email === req.body.Email && user.Password === req.body.Password) {
+                if (user.Email === req.body.Email && finalPassword == req.body.Password) {
                     res.status(200).json({ success: true, user: user })
                 } else {
                     res.status(400).json({ success: false, error: "Invalid Credentials" })
