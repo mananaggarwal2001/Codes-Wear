@@ -29,9 +29,9 @@ const login = () => {
     });
     const finalresult = await response.json();
     if (finalresult.success) {
+      localStorage.setItem('token', finalresult)
       toast.success('Sucessfully Logged In !!')
       setTimeout(() => {
-
         Router.push('http://localhost:3000');
       }, 3200);
     } else {

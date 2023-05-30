@@ -2,6 +2,7 @@ import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import User from "@/models/User";
 import CryptoJS from "crypto-js";
+const jwt = require('jsonwebtoken')
 const handler = async (req, res) => {
     if (req.method === 'POST') {
         try {
@@ -10,7 +11,8 @@ const handler = async (req, res) => {
             const finalPassword = bytes.toString(CryptoJS.enc.Utf8)
             if (user) {
                 if (user.Email === req.body.Email && finalPassword == req.body.Password) {
-                    res.status(200).json({ success: true, user: user })
+                    let token = jwt.sign({ success: true, Name: user.Name, Email: user.Email }, 'itsthefinalsecretforloginintothewebsite')
+                    res.status(200).json({ token, success: true })
                 } else {
                     res.status(400).json({ success: false, error: "Invalid Credentials" })
                 }
