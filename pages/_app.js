@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 export default function App({ Component, pageProps }) {
   const [Cart, setCart] = useState({})
   const [subTotal, setsubTotal] = useState(0)
+  const [user, setUser] = useState({ value: null })
+  const [key, setKey] = useState()
   const Router = useRouter();
 
   useEffect(() => {
@@ -15,11 +17,17 @@ export default function App({ Component, pageProps }) {
         setCart(JSON.parse(localStorage.getItem('Cart')))
         setsubTotal(localStorage.getItem('subtotal'))
       }
+
     } catch (error) {
       console.log(error.message)
       localStorage.clear();
     }
-  }, [])
+    const user = localStorage.getItem('token')
+    if (user) {
+      setUser({ value: user })
+    }
+
+  }, [Router.query]) // for re rendering the application on changing of the url of the application so that we haven't to re load the website again and again to change the things.
 
   // saveCart item is used for saving the item in the localStorage so that  the given items should persist on the reloading of the webpage.
   const saveCart = (myCart) => {
@@ -79,6 +87,12 @@ export default function App({ Component, pageProps }) {
     localStorage.setItem('Cart', JSON.stringify(newCart))
     Router.push('/websitepages/checkout')
   }
+  // for logout from the page we have
+  const logout = () => {
+    localStorage.removeItem('token')
+    setUser({value:null})
+    setKey(Math.random())
+  }
 
   // this is the remove cart function for removing the items in the cart.
   const removeFromCart = (itemCode, qty, Price, Name, size, variant) => {
@@ -95,7 +109,7 @@ export default function App({ Component, pageProps }) {
   }
   return (
     <>
-      <Navbar cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
+      <Navbar key={key} logout={logout} user={user} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
       <Component buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
       <Footer />
     </>
