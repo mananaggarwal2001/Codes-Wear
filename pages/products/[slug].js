@@ -17,7 +17,7 @@ const Slug = (props) => {
   // function for checking the services whether the services are present in that particular state or not.
   const checkserviceablity = async () => {
     // then we have use the fetch api for getting the pincodes from the backend server and to do the further services in the frontend services.
-    let pin = await fetch('http://localhost:3000/api/pincode');
+    let pin = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
     let finalpincode = await pin.json();
     if (finalpincode.includes(Number.parseInt(Pin))) {
       toast.success('Pincode is Serviciable')
@@ -36,7 +36,7 @@ const Slug = (props) => {
   const refreshVariant = (newSize, newColor) => {
 
     console.log(newSize, newColor)
-    let url = `http://localhost:3000/products/${variant[newColor][newSize]['slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
+    let url = `${process.env.NEXT_PUBLIC_HOST}/products/${variant[newColor][newSize]['slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
     window.location = url; // this option will redirect to that paritcular url by using the window.location method and redirect to the correct url.
   }
 

@@ -7,9 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 
 const signup = () => {
-  const [Name, setName] = useState()
-  const [Email, setEmail] = useState()
-  const [Password, setPassword] = useState()
+  const [Name, setName] = useState('')
+  const [Email, setEmail] = useState('')
+  const [Password, setPassword] = useState('')
   const handleChange = (e) => {
     if (e.target.name === 'name') {
       setName(e.target.value)
@@ -24,7 +24,7 @@ const signup = () => {
     e.preventDefault(); // for preventing the reload of the page when submitting the form after clicking the submit button.
     const data = { Name, Email, Password }
     try {
-      const response = await fetch("http://localhost:3000/api/signup", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
         method: "POST", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
