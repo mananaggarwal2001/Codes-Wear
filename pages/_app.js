@@ -99,6 +99,7 @@ export default function App({ Component, pageProps }) {
     localStorage.removeItem('token')
     setUser({value:null})
     setKey(Math.random())
+    Router.push('/')
   }
 
   // this is the remove cart function for removing the items in the cart.
