@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
+
 const signup = () => {
   const [Name, setName] = useState()
   const [Email, setEmail] = useState()

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
@@ -16,6 +16,13 @@ const login = () => {
       setPassword(e.target.value)
     }
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      Router.push('/'); // when the user is logged in then the given user will be redirected to the home poge and the user will not be able to redirected to the login page as the user is redirecting to the login page before.
+    }
+  }, [])
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()

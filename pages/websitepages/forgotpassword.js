@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const forgotpassword = () => {
+    const Router= useRouter()
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            Router.push('/')
+        }
+    }, [])
+
     return (
         <div>
             <section className="text-gray-600 body-font relative">

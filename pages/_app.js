@@ -1,7 +1,8 @@
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import '@/styles/globals.css'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
+import LoadingBar from 'react-top-loading-bar'
 import { useEffect, useState } from 'react'
 
 export default function App({ Component, pageProps }) {
@@ -10,8 +11,14 @@ export default function App({ Component, pageProps }) {
   const [user, setUser] = useState({ value: null })
   const [key, setKey] = useState()
   const Router = useRouter();
-
+  const [progress, setProgress] = useState(0) // for setting the progress bar and showing in the top of the use router.
   useEffect(() => {
+    Router.events.on('routeChangeStart', () => {
+      setProgress(40)
+    });
+    Router.events.on('routeChangeComplete', () => {
+      setProgress(100)
+    });
     try {
       if (localStorage.getItem('Cart') && localStorage.getItem('subtotal')) {
         setCart(JSON.parse(localStorage.getItem('Cart')))
@@ -109,6 +116,12 @@ export default function App({ Component, pageProps }) {
   }
   return (
     <>
+      <LoadingBar
+        color='#ff2d55'
+        progress={progress}
+        waitingTime={400}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <Navbar key={key} logout={logout} user={user} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
       <Component buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
       <Footer />
