@@ -2,10 +2,60 @@ import React from 'react'
 import Link from 'next/link'
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { BsFillBagCheckFill } from 'react-icons/Bs'
+import Head from 'next/head'
+import Script from 'next/script'
+
+
 const checkout = (props) => {
   const { cart, addToCart, removeFromCart, clearCart, subTotal } = props
+  const intiatePayment = async () => {
+    let oid = Math.floor(Math.random() * Date.now())
+    let txntoken;
+    // get a transaction token for intiating the payment process
+
+    const data = { cart, subTotal, oid , email:'email@gmail.com' } // for sending the data to the backend api for creating the token and getting into the frontend for the further operation.
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/paytmTransaction`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    txntoken = await response.json() // for converting the string data into the object of the json.
+    console.log(txntoken)
+    let config = {
+      "root": "",
+      "flow": "DEFAULT",
+      "data": {
+        "orderId": oid, /* update order id */
+        "token": txntoken, /* update token value */
+        "tokenType": "TXN_TOKEN",
+        "amount": subTotal
+      },
+      "handler": {
+        "notifyMerchant": function (eventName, data) {
+          console.log("notifyMerchant handler function called");
+          console.log("eventName => ", eventName);
+          console.log("data => ", data);
+        }
+      }
+    };
+    // initialze configuration using init method
+    window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+      // after successfully updating configuration, invoke JS Checkout
+      window.Paytm.CheckoutJS.invoke();
+    }).catch(function onError(error) {
+      console.log("error => ", error);
+    });
+
+  }
   return (
     <div>
+      <Head>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+      </Head>
+      <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}  crossorigin="anonymous" />
       <div className='container m-auto px-8 md:p-0 md:w-2/3'>
         <h1 className='font-bold text-3xl text-center my-8'>CheckOut</h1>
         <h2 className='text-xl font-semibold my-4'>1. Delivery Details</h2>
@@ -87,7 +137,7 @@ const checkout = (props) => {
           </ol>
           <div className="total font-semibold mt-6 text-lg">Subtotal: ₹{subTotal}</div>
         </div>
-        <Link href={'/websitepages/checkout'}><button className="flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='me-2' /> <span className='font-semibold'> Pay ₹{subTotal}</span> </button>
+        <Link href={'/websitepages/checkout'}><button onClick={intiatePayment} className="flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='me-2' /> <span className='font-semibold'> Pay ₹{subTotal}</span> </button>
         </Link>
       </div>
     </div>
