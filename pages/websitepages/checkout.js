@@ -5,16 +5,13 @@ import { BsFillBagCheckFill } from 'react-icons/Bs'
 import Head from 'next/head'
 import Script from 'next/script'
 
-
 const checkout = (props) => {
   const { cart, addToCart, removeFromCart, clearCart, subTotal } = props
-  const intiatePayment = async () => {
-    let oid = Math.floor(Math.random() * Date.now())
-    let txntoken;
-    // get a transaction token for intiating the payment process
+  const intiatePayment = async (e) => {
+    e.preventDefault()
 
-    const data = { cart, subTotal, oid , email:'email@gmail.com' } // for sending the data to the backend api for creating the token and getting into the frontend for the further operation.
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/paytmTransaction`, {
+    const data = { cart, subTotal }
+    const response = await fetch("http://localhost:3000/api/razorPayTransactions", {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -22,32 +19,30 @@ const checkout = (props) => {
       body: JSON.stringify(data),
     });
 
-    txntoken = await response.json() // for converting the string data into the object of the json.
-    console.log(txntoken)
-    let config = {
-      "root": "",
-      "flow": "DEFAULT",
-      "data": {
-        "orderId": oid, /* update order id */
-        "token": txntoken, /* update token value */
-        "tokenType": "TXN_TOKEN",
-        "amount": subTotal
+    const finalresponse = await response.json()
+    const options = {
+      "key": process.env.NEXT_PUBLIC_KEY_ID, // Enter the Key ID generated from the Dashboard
+      "amount": Number.parseInt(subTotal) * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Codes Wear", //your business name
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": finalresponse.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "callback_url": "http://localhost:3000/api/paymentVerification",
+      "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000" //Provide the customer's phone number for better conversion rates
       },
-      "handler": {
-        "notifyMerchant": function (eventName, data) {
-          console.log("notifyMerchant handler function called");
-          console.log("eventName => ", eventName);
-          console.log("data => ", data);
-        }
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
       }
     };
-    // initialze configuration using init method
-    window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
-      // after successfully updating configuration, invoke JS Checkout
-      window.Paytm.CheckoutJS.invoke();
-    }).catch(function onError(error) {
-      console.log("error => ", error);
-    });
+    const finaloutput = new Razorpay(options)
+    finaloutput.open()
 
   }
   return (
@@ -55,7 +50,7 @@ const checkout = (props) => {
       <Head>
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
       </Head>
-      <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}  crossorigin="anonymous" />
+      <Script defer src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <div className='container m-auto px-8 md:p-0 md:w-2/3'>
         <h1 className='font-bold text-3xl text-center my-8'>CheckOut</h1>
         <h2 className='text-xl font-semibold my-4'>1. Delivery Details</h2>
