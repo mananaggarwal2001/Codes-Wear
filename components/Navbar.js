@@ -20,7 +20,7 @@ const Navbar = (props) => {
         }
     }
     return (
-        <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full bg-white z-10 sticky top-0'>
+        <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full bg-white z-10 fixed top-0'>
             <div className="logo mr-auto md:mx-5">
                 <Link href={'/'}><Image src={logo} width={200} height={40} alt='codewear Logo' /></Link>
             </div>

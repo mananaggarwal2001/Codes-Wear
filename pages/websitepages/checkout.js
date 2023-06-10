@@ -4,7 +4,7 @@ import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { BsFillBagCheckFill } from 'react-icons/Bs'
 import Head from 'next/head'
 import Script from 'next/script'
-
+import logo from '../Images/logo.png'
 const checkout = (props) => {
   const { cart, addToCart, removeFromCart, clearCart, subTotal } = props
   const intiatePayment = async (e) => {
@@ -26,7 +26,7 @@ const checkout = (props) => {
       "currency": "INR",
       "name": "Codes Wear", //your business name
       "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
+      "image": logo,
       "order_id": finalresponse.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "callback_url": "http://localhost:3000/api/paymentVerification",
       "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
@@ -38,7 +38,7 @@ const checkout = (props) => {
         "address": "Razorpay Corporate Office"
       },
       "theme": {
-        "color": "#3399cc"
+        "color": "#ec4899"
       }
     };
     const finaloutput = new Razorpay(options)
