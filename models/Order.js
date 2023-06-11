@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 // order schema is ready to be use in the codeswear website.
 
 const orderSchema = new mongoose.Schema({
-    userId: {
+    email: {
         type: String,
         required: true
     },

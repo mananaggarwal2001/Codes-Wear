@@ -7,11 +7,11 @@ const handler = async (req, res) => {
     if (req.method === 'POST') {
         try {
             const user = await User.findOne({ Email: req.body.Email });
-            const bytes = CryptoJS.AES.decrypt(user.Password, 'Manan123');
+            const bytes = CryptoJS.AES.decrypt(user.Password, process.env.AES_SECRET);
             const finalPassword = bytes.toString(CryptoJS.enc.Utf8)
             if (user) {
                 if (user.Email === req.body.Email && finalPassword == req.body.Password) {
-                    let token = jwt.sign({ success: true, Name: user.Name, Email: user.Email }, 'itsthefinalsecretforloginintothewebsite')
+                    let token = jwt.sign({ success: true, Name: user.Name, Email: user.Email }, process.env.JWT_SECRET)
                     res.status(200).json({ token, success: true })
                 } else {
                     res.status(400).json({ success: false, error: "Invalid Credentials" })

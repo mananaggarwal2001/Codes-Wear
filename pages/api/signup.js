@@ -9,7 +9,7 @@ const handler = async (req, res) => {
             console.log(Name)
             console.log(Email)
 
-            let finaluser = new User({ Name, Email, Password: CryptoJS.AES.encrypt(req.body.Password, 'Manan123').toString() })
+            let finaluser = new User({ Name, Email, Password: CryptoJS.AES.encrypt(req.body.Password, process.env.AES_SECRET).toString() })
             await finaluser.save()
             res.status(200).json({ finalresult: finaluser })
         } catch (error) {
