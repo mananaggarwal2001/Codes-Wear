@@ -1,3 +1,8 @@
+import connectToMongo from "@/middleware/mongooose"
+connectToMongo()
+import mongoose from "mongoose"
+
+
 export default function handler(req, res) {
     // Update status into orders table after checking the transaction status.
     // Intiate shipping of the particular order.

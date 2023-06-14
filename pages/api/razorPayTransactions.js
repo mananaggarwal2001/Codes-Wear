@@ -1,17 +1,42 @@
+import connectToMongo from "@/middleware/mongooose";
+connectToMongo()
 import razorpayfinal from "@/middleware/razorPay"
+import Order from "@/models/Order";
 
 export default async function handler(req, res) {
-    const { subTotal, cart } = req.body;
+    const { cart, subTotal, email, name, phone, pincode, address } = req.body;
     try {
 
         if (req.method == 'POST') {
-            const options = {
-                amount: toString(Number.parseFloat(subTotal) * 100),
-                currency: 'INR',
-                receipt: 'orderreceipt11'
-            }
 
-            const finalresult = await razorpayfinal.orders.create(options)
+            // intiate an order accroding to the generated the order id
+            // const options = {
+            //     amount: Number.parseInt(subTotal * 100),
+            //     currency: 'INR',
+            //     receipt: 'orderreceipt11'
+            // }
+
+            const finalresult = await razorpayfinal.orders.create({
+                amount: Number.parseInt(subTotal) * 100,
+                currency: 'INR'
+            })
+
+            const neworder = new Order({
+                email: email,
+                orderID: finalresult.id,
+                paymentInfo: 'This is the new info for doing the payment',
+                address: address,
+                amount: Number.parseInt(subTotal),
+                products: cart
+            })
+
+            // check if the cart is tampered whether the given cart is tampered or not.
+
+            // check if the cart items are out of stock or not.
+
+            // check if the details are valid or not for getting the order to the right customer.
+            const successfullresult = await neworder.save()
+            console.log(successfullresult)
             res.status(200).json({ finalresult })
         }
     } catch (error) {

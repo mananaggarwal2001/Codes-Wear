@@ -6,15 +6,18 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products: [{
-        productId: {
-            type: String,
-        },
-        quantity: {
-            type: Number,
-            default: 1
-        }
-    }],
+    orderID: {
+        type: String,
+        required: true
+    },
+    paymentInfo: {
+        type: String,
+        default: ''
+    },
+    products: {
+        type: Object,
+        required: true
+    },
     address: {
         type: String,
         required: true
@@ -25,11 +28,10 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
         default: 'Pending'
     }
 
 }, { timestamps: true })
 
-mongoose.models= {}
+mongoose.models = {}
 export default mongoose.model('Orders', orderSchema);
