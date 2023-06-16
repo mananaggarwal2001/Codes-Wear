@@ -10,17 +10,13 @@ export default async function handler(req, res) {
         if (req.method == 'POST') {
 
             // intiate an order accroding to the generated the order id
-            // const options = {
-            //     amount: Number.parseInt(subTotal * 100),
-            //     currency: 'INR',
-            //     receipt: 'orderreceipt11'
-            // }
 
             const finalresult = await razorpayfinal.orders.create({
                 amount: Number.parseInt(subTotal) * 100,
                 currency: 'INR'
             })
-
+            console.log(finalresult)
+            // for creating the particualar order and store the details of the order id.
             const neworder = new Order({
                 email: email,
                 orderID: finalresult.id,
@@ -35,8 +31,7 @@ export default async function handler(req, res) {
             // check if the cart items are out of stock or not.
 
             // check if the details are valid or not for getting the order to the right customer.
-            const successfullresult = await neworder.save()
-            console.log(successfullresult)
+            await neworder.save()
             res.status(200).json({ finalresult })
         }
     } catch (error) {

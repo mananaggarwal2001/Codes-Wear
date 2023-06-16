@@ -52,8 +52,6 @@ const checkout = (props) => {
       },
       body: JSON.stringify(data),
     });
-    console.log(name, email, phone, pincode, address)
-
     const finalresponse = await response.json()
     const options = {
       "key": process.env.NEXT_PUBLIC_KEY_ID, // Enter the Key ID generated from the Dashboard
@@ -62,12 +60,12 @@ const checkout = (props) => {
       "name": "Codes Wear", //your business name
       "description": "Test Transaction",
       "image": logo,
-      "order_id": finalresponse.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "order_id": finalresponse.finalresult.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "callback_url": "http://localhost:3000/api/paymentVerification",
       "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-        "name": "Gaurav Kumar", //your customer's name
-        "email": "gaurav.kumar@example.com",
-        "contact": "9000090000" //Provide the customer's phone number for better conversion rates
+        "name": "", //your customer's name
+        "email": "", // this will be filled by the customer themselves.
+        "contact": "" //Provide the customer's phone number for better conversion rates
       },
       "notes": {
         "address": "Razorpay Corporate Office"
