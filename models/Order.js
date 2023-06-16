@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     paymentInfo: {
-        type: String,
+        type: Object,
         default: ''
     },
     products: {
@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Pending'
+        default: 'Intiate'
     }
 
 }, { timestamps: true })

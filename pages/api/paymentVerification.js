@@ -2,13 +2,26 @@ import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import razorpayfinal from "@/middleware/razorPay"
 import Order from "@/models/Order";
+import CryptoJS, {HmacSHA256} from "crypto-js";
 
-export default function handler(req, res) {
+const handler= async (req, res)=> {
     //validate the razorpay checksum whether the given data is valid or not.
 
     // Update status into orders table after checking the transaction status.
+    let finalorder = await Order.findOne({ orderID: req.body.razorpay_order_id })
+    let updatedFinalOrder= await Order.findByIdAndUpdate(finalorder._id, { status: 'Pending', paymentInfo:req.body}, {returnDocument:'after'}) // this will update the status to Pending in the existing id.
+    let generatedSignature = HmacSHA256(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id, process.env.RAZORPAY_KEY_SECRET).toString()
+
+    if (generatedSignature == updatedFinalOrder.paymentInfo.razorpay_signature) {
+        await Order.findByIdAndUpdate(finalorder._id, { status: 'Paid' })
+        res.redirect('/websitepages/order', 200); // for redirecting to the order confirmaiton page for getting the particular order.
+    } else {
+        await Order.findByIdAndUpdate(finalorder._id, { status: 'Abort' })
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
     // Intiate shipping of the particular order.
     // Redirect the user to the order confirmation page.
-    const finalfunction= req.body
-    res.status(200).json({finalfunction})
+
 }
+
+export default handler;
