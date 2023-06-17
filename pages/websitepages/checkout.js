@@ -19,7 +19,8 @@ const checkout = (props) => {
   const [state, setstate] = useState()
 
   // process for the checking the disablity of the given button whether to enable the particular button for further proceed in the checkout and the payment state for doing the particular task.
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
+
     if (e.target.name === "name") {
       setName(e.target.value)
     } else if (e.target.name === "email") {
@@ -28,6 +29,21 @@ const checkout = (props) => {
       setphone(e.target.value)
     } else if (e.target.name === 'pincode') {
       setpincode(e.target.value)
+      if (e.target.value.length >= 6) {
+        let pin = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
+        let finalpincode = await pin.json();
+        console.log(finalpincode)
+        if (Object.keys(finalpincode).includes(e.target.value)) {
+          setstate(finalpincode[e.target.value][1])
+          setcity(finalpincode[e.target.value][0])
+        } else {
+          setstate('')
+          setcity('')
+        }
+      } else {
+        setstate('')
+        setcity('')
+      }
     } else if (e.target.name === 'address') {
       setaddress(e.target.value)
     }
@@ -127,14 +143,14 @@ const checkout = (props) => {
           <div className="w-1/2">
             <div class="mb-4">
               <label htmlfor="state" class="leading-7 text-sm text-gray-600">State</label>
-              <input value={state} type="text" id="state" name="state" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your State' readOnly={true} />
+              <input onChange={handleChange} value={state} type="text" id="state" name="state" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your State'  />
             </div>
           </div>
           <div className="px-2 w-1/2">
             <div class="mb-4 ">
 
               <label htmlfor="city" class="leading-7 text-sm text-gray-600">City</label>
-              <input value={city} type="text" id="city" name="city" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your City' readOnly={true} />
+              <input onChange={handleChange} value={city} type="text" id="city" name="city" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your City'  />
 
 
             </div>

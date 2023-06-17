@@ -19,7 +19,7 @@ const Slug = (props) => {
     // then we have use the fetch api for getting the pincodes from the backend server and to do the further services in the frontend services.
     let pin = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
     let finalpincode = await pin.json();
-    if (finalpincode.includes(Number.parseInt(Pin))) {
+    if (Object.keys(finalpincode).includes(Pin)) {
       toast.success('Pincode is Serviciable')
       setServicablity(true)
     } else {
@@ -154,20 +154,6 @@ const Slug = (props) => {
                 <input type='phone' className='px-2 border-2 border-gray-400 rounded-md' onChange={handlePinChange} value={Pin} placeholder='Enter Your PinCode' />
                 <button onClick={checkserviceablity} className='"flex ml-16 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded font-semibold'>Check</button>
               </div>
-              {
-                (Serviciability && Serviciability != null) &&
-                <div className="text-green-500 font-bold mt-3">
-                  Yay! This Pincode is Serviceable !!
-                </div>
-              }
-
-              {
-
-                (!Serviciability && Serviciability != null) &&
-                <div className="text-red-500 font-bold mt-3">
-                  Sorry! We do not deliver to this pincode!!
-                </div>
-              }
             </div>
           </div>
         </div>
