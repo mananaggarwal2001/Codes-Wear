@@ -9,12 +9,12 @@ const handler= async (req, res)=> {
 
     // Update status into orders table after checking the transaction status.
     let finalorder = await Order.findOne({ orderID: req.body.razorpay_order_id })
-    let updatedFinalOrder= await Order.findByIdAndUpdate(finalorder._id, { status: 'Pending', paymentInfo:req.body}, {returnDocument:'after'}) // this will update the status to Pending in the existing id.
+    let updatedFinalOrder= await Order.findByIdAndUpdate(finalorder._id, { status: 'Pending', paymentInfo:req.body}, {returnDocument:'after'}) // this will update the status to Pending in the existing id after updating the document.
     let generatedSignature = HmacSHA256(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id, process.env.RAZORPAY_KEY_SECRET).toString()
 
     if (generatedSignature == updatedFinalOrder.paymentInfo.razorpay_signature) {
         await Order.findByIdAndUpdate(finalorder._id, { status: 'Paid' })
-        res.redirect('/websitepages/order', 200); // for redirecting to the order confirmaiton page for getting the particular order.
+        res.redirect(`/websitepages/order?Orderid=${finalorder._id}`, 200); // for redirecting to the order confirmaiton page for getting the particular order.
     } else {
         await Order.findByIdAndUpdate(finalorder._id, { status: 'Abort' })
         res.status(500).json({ error: 'Internal Server Error' });

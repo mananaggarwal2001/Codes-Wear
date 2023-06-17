@@ -191,9 +191,6 @@ export async function getServerSideProps(context) {
     }
   }
 
-  console.log('color size slug is :- ')
-  console.log(colorSizeSlug);
-
   return {
     props: { product: JSON.parse(JSON.stringify(finalproduct)), variant: JSON.parse(JSON.stringify(colorSizeSlug)) } // for returning the product and the variant for populating the particular slug page for finding the particular product.
   };

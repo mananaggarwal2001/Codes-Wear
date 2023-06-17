@@ -20,6 +20,7 @@ export default async function handler(req, res) {
             const neworder = new Order({
                 email: email,
                 orderID: finalresult.id,
+                name: name,
                 paymentInfo: 'This is the new info for doing the payment',
                 address: address,
                 amount: Number.parseInt(subTotal),
