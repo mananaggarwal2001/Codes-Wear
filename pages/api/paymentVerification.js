@@ -2,6 +2,7 @@ import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import razorpayfinal from "@/middleware/razorPay"
 import Order from "@/models/Order";
+import Product from "@/models/Product";
 import CryptoJS, {HmacSHA256} from "crypto-js";
 
 const handler= async (req, res)=> {
@@ -13,8 +14,13 @@ const handler= async (req, res)=> {
     let generatedSignature = HmacSHA256(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id, process.env.RAZORPAY_KEY_SECRET).toString()
 
     if (generatedSignature == updatedFinalOrder.paymentInfo.razorpay_signature) {
-        await Order.findByIdAndUpdate(finalorder._id, { status: 'Paid' })
+        const afterorder= await Order.findByIdAndUpdate(finalorder._id, { status: 'Paid' })
         res.redirect(`/websitepages/order?Orderid=${finalorder._id}`, 200); // for redirecting to the order confirmaiton page for getting the particular order.
+        let products = afterorder.products;
+        console.log(products);
+        for (let itemsslug in products) {
+            await Product.findOneAndUpdate({ slug: itemsslug }, {$inc:{avaiableQty: - products[itemsslug]["qty"]}});
+        }
     } else {
         await Order.findByIdAndUpdate(finalorder._id, { status: 'Abort' })
         res.status(500).json({ error: 'Internal Server Error' });
