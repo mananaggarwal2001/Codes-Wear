@@ -2,12 +2,34 @@ import connectToMongo from "@/middleware/mongooose";
 connectToMongo()
 import razorpayfinal from "@/middleware/razorPay"
 import Order from "@/models/Order";
+import Product from "@/models/Product";
 
 export default async function handler(req, res) {
     const { cart, subTotal, email, name, phone, pincode, address } = req.body;
     try {
 
         if (req.method == 'POST') {
+            let sumTotal, product = 0;
+            for (let item in cart) {
+                product = await Product.findOne({ slug: item })
+                sumTotal = product.price * cart[item].qty;
+                if (product.price != cart[item].Price) {
+                    res.status(500).json({ success: false, error: 'Price of some items has being changed' });
+                    return;
+                }
+            }
+
+            if (sumTotal != subTotal) {
+                res.status(500).json({ success: false, error: 'Total Price is being tampered' });
+                return;
+            }
+
+
+            // check if the cart items are out of stock or not.
+
+            // check if the details are valid or not for getting the order to the right customer.
+
+
 
             // intiate an order accroding to the generated the order id
 
@@ -27,16 +49,11 @@ export default async function handler(req, res) {
                 products: cart
             })
 
-            // check if the cart is tampered whether the given cart is tampered or not.
-
-            // check if the cart items are out of stock or not.
-
-            // check if the details are valid or not for getting the order to the right customer.
             await neworder.save()
-            res.status(200).json({ finalresult })
+            res.status(200).json({ success:true, finalresult })
         }
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ error: 'Internal Server Error' })
+        res.status(500).json({ success:false, error: 'Internal Server Error' })
     }
 }

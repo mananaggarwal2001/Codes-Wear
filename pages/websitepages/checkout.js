@@ -5,6 +5,8 @@ import { BsFillBagCheckFill } from 'react-icons/Bs'
 import Head from 'next/head'
 import Script from 'next/script'
 import logo from '../Images/logo.png'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const checkout = (props) => {
   const { cart, addToCart, removeFromCart, clearCart, subTotal } = props
 
@@ -69,30 +71,33 @@ const checkout = (props) => {
       body: JSON.stringify(data),
     });
     const finalresponse = await response.json()
-    const options = {
-      "key": process.env.NEXT_PUBLIC_KEY_ID, // Enter the Key ID generated from the Dashboard
-      "amount": Number.parseInt(subTotal) * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      "currency": "INR",
-      "name": "Codes Wear", //your business name
-      "description": "Test Transaction",
-      "image": logo,
-      "order_id": finalresponse.finalresult.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      "callback_url": "http://localhost:3000/api/paymentVerification",
-      "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-        "name": "", //your customer's name
-        "email": "", // this will be filled by the customer themselves.
-        "contact": "" //Provide the customer's phone number for better conversion rates
-      },
-      "notes": {
-        "address": "Razorpay Corporate Office"
-      },
-      "theme": {
-        "color": "#ec4899"
-      }
-    };
-    const finaloutput = new Razorpay(options)
-    finaloutput.open()
-
+    if (finalresponse.success) {
+      const options = {
+        "key": process.env.NEXT_PUBLIC_KEY_ID, // Enter the Key ID generated from the Dashboard
+        "amount": Number.parseInt(subTotal) * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Codes Wear", //your business name
+        "description": "Test Transaction",
+        "image": logo,
+        "order_id": finalresponse.finalresult.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "http://localhost:3000/api/paymentVerification",
+        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+          "name": "", //your customer's name
+          "email": "", // this will be filled by the customer themselves.
+          "contact": "" //Provide the customer's phone number for better conversion rates
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#ec4899"
+        }
+      };
+      const finaloutput = new Razorpay(options)
+      finaloutput.open()
+    } else {
+      toast.error(finalresponse.error);
+    }
   }
   return (
     <div>
@@ -101,6 +106,18 @@ const checkout = (props) => {
       </Head>
       <Script defer src="https://checkout.razorpay.com/v1/checkout.js"></Script>
       <div className='container m-auto px-8 md:p-0 md:w-2/3'>
+        <ToastContainer
+          position="bottom-left"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <h1 className='font-bold text-3xl text-center my-8'>CheckOut</h1>
         <h2 className='text-xl font-semibold my-4'>1. Delivery Details</h2>
         <div className="mx-auto flex">
@@ -143,14 +160,14 @@ const checkout = (props) => {
           <div className="w-1/2">
             <div class="mb-4">
               <label htmlfor="state" class="leading-7 text-sm text-gray-600">State</label>
-              <input onChange={handleChange} value={state} type="text" id="state" name="state" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your State'  />
+              <input onChange={handleChange} value={state} type="text" id="state" name="state" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your State' />
             </div>
           </div>
           <div className="px-2 w-1/2">
             <div class="mb-4 ">
 
               <label htmlfor="city" class="leading-7 text-sm text-gray-600">City</label>
-              <input onChange={handleChange} value={city} type="text" id="city" name="city" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your City'  />
+              <input onChange={handleChange} value={city} type="text" id="city" name="city" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your City' />
 
 
             </div>
@@ -161,7 +178,8 @@ const checkout = (props) => {
         <div className="sidebar  bg-pink-100 px-8 py-10 duration-500 w-full">
 
           <ol className='list-decimal font-semibold'>
-            {Object.keys(cart).length === 0 && <div className='flex justify-center items-center'>No items in Cart</div>
+            {
+              Object.keys(cart).length === 0 && <div className='flex justify-center items-center'>No items in Cart</div>
             }
             {
               Object.keys(cart).map((item) => {

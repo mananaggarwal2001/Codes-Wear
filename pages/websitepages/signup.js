@@ -33,14 +33,20 @@ const signup = () => {
       });
 
       const result = await response.json();
-      toast.success('User Created Successfully!!')
+      if (result.success) {
+        toast.success('User Created Successfully!!')
+        setName('')
+        setEmail('')
+        setPassword('')
+      } else {
+        toast.error(result.error);
+      }
+
       console.log("Success:", result);
     } catch (error) {
       console.error("Error:", error);
     }
-    setName('')
-    setEmail('')
-    setPassword('')
+
   }
   return (
     <div>
