@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 export default function App({ Component, pageProps }) {
   const [Cart, setCart] = useState({})
   const [subTotal, setsubTotal] = useState(0)
-  const [user, setUser] = useState({ value: null })
+  const [user, setUser] = useState({ value: null, email: null })
   const [key, setKey] = useState()
   const Router = useRouter();
   const [progress, setProgress] = useState(0) // for setting the progress bar and showing in the top of the use router.
@@ -29,9 +29,9 @@ export default function App({ Component, pageProps }) {
       console.log(error.message)
       localStorage.clear();
     }
-    const user = localStorage.getItem('token')
+    const user = JSON.parse(localStorage.getItem('myuser'));
     if (user) {
-      setUser({ value: user })
+      setUser({ token: user.token, email: user.email })
     }
 
   }, [Router.query]) // for re rendering the application on changing of the url of the application so that we haven't to re load the website again and again to change the things.
@@ -96,8 +96,8 @@ export default function App({ Component, pageProps }) {
   }
   // for logout from the page we have
   const logout = () => {
-    localStorage.removeItem('token')
-    setUser({value:null})
+    localStorage.removeItem('myuser')
+    setUser({ value: null })
     setKey(Math.random())
     Router.push('/')
   }
@@ -106,7 +106,7 @@ export default function App({ Component, pageProps }) {
   const removeFromCart = (itemCode, qty, Price, Name, size, variant) => {
     let myCart = Cart;
     // checking whether the given item is zero or not in the given cart.
-    if (myCart[itemCode].qty === 0) {
+    if (myCart[itemCode].qty == 0) {
       delete myCart[itemCode];
       localStorage.removeItem('Cart')
     } else if (itemCode in Cart) {
@@ -124,7 +124,7 @@ export default function App({ Component, pageProps }) {
         onLoaderFinished={() => setProgress(0)}
       />
       <Navbar key={key} logout={logout} user={user} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
-      <Component buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
+      <Component user={user} buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
       <Footer />
     </>
   )

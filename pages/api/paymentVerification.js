@@ -15,7 +15,7 @@ const handler= async (req, res)=> {
 
     if (generatedSignature == updatedFinalOrder.paymentInfo.razorpay_signature) {
         const afterorder= await Order.findByIdAndUpdate(finalorder._id, { status: 'Paid' })
-        res.redirect(`/websitepages/order?Orderid=${finalorder._id}`, 200); // for redirecting to the order confirmaiton page for getting the particular order.
+        res.redirect(`/websitepages/order?Orderid=${finalorder._id}&clearCart=1`, 200); // for redirecting to the order confirmaiton page for getting the particular order.
         let products = afterorder.products;
         console.log(products);
         for (let itemsslug in products) {

@@ -5,7 +5,9 @@ import  Jwt  from "jsonwebtoken"
 
 export default async function handler(req, res) {
     if (req.method == 'POST') {
-        const token = req.body.token;
+        // console.log(req.body)
+        // console.log(typeof req.body)
+        const token = req.body.value;
         const data = Jwt.verify(token, process.env.JWT_SECRET)
         const orders = await Order.find({ email: data.Email });
         console.log(orders)

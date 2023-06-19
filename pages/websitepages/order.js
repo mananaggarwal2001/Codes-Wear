@@ -4,11 +4,20 @@ import Order from '@/models/Order';
 connectToMongo()
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function Myorder(props) {
-    const { order } = props;
+    const { order, clearCart } = props;
     const orderproducts = order.products;
+    const router = useRouter()
+
+    useEffect(() => {
+
+
+        if (router.query.clearCart == 1) {
+            clearCart();
+        }
+    }, [clearCart, router.query.clearCart])
     return (
         <div>
             <section className="text-gray-600 body-font overflow-hidden">

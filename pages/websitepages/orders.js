@@ -13,7 +13,7 @@ const orders = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token: localStorage.getItem('token') }),
+      body: JSON.stringify({ value: JSON.parse(localStorage.getItem('myuser')).token }),
     });
     let responseorders = await response.json()
     let finalorders = responseorders.orders;
@@ -23,9 +23,9 @@ const orders = () => {
   useEffect(() => {
     try {
 
-      if (!localStorage.getItem('token')) {
+      if (!localStorage.getItem('myuser')) {
         Router.push('/');
-      } else if (localStorage.getItem('token')) {
+      } else if (localStorage.getItem('myuser')) {
         fetchOrders()
       }
     } catch (error) {

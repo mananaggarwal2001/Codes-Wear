@@ -36,7 +36,7 @@ const Navbar = (props) => {
             <div className="cart flex  absolute right-0 mx-3 top-5 space-x-4 items-center">
                 <div onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} >
 
-                    {user.value && <MdAccountCircle onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className=' text-xl md:text-3xl cursor-pointer' />}
+                    {user.token && <MdAccountCircle onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className=' text-xl md:text-3xl cursor-pointer' />}
                     {dropdown && <div onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className="absolute right-12 bg-pink-400 top-7 px-5 rounded-md w-40  cursor-pointer">
                         <ul>
                             <li className=' my-3 hover:text-pink-500 font-semibold text-white'>My Accounts</li>
@@ -47,7 +47,7 @@ const Navbar = (props) => {
                     }
 
                 </div>
-                {!user.value &&
+                {!user.token &&
 
                     <Link href={'websitepages/login'}>
                         <button className='bg-pink-600 text-white text-sm px-3 py-1 rounded-lg font-bold sm:mr-auto'>Login</button>

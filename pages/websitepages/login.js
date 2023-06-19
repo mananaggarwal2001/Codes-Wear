@@ -37,7 +37,7 @@ const login = () => {
     const finalresult = await response.json();
     if (finalresult.success) {
 
-      localStorage.setItem('token', finalresult.token)
+      localStorage.setItem('myuser', JSON.stringify({ token: finalresult.token, email: finalresult.email }))
       toast.success('Sucessfully Logged In !!')
       setTimeout(() => {
         Router.push(process.env.NEXT_PUBLIC_HOST);
