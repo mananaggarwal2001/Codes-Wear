@@ -100,7 +100,7 @@ const checkout = (props) => {
       finaloutput.open()
     } else {
       toast.error(finalresponse.error);
-
+      clearCart()
     }
   }
   return (
@@ -135,7 +135,7 @@ const checkout = (props) => {
             <div class="mb-4 ">
               <label htmlfor="email" class="leading-7 text-sm text-gray-600">Email</label>
               {user && user.token ?
-                <input onChange={handleChange} value={user.email} type="email" id="email" name="email" class="w-full read-only:bg-gray-300 bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Email' readOnly={true} /> : <input onChange={handleChange} value={email} type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Email' />
+                <input onChange={handleChange} value={user.email} type="email" id="email" name="email" class="w-full text-opacity-60 read-only:bg-gray-300 bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Email' readOnly={true} /> : <input onChange={handleChange} value={email} type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Email' />
               }
             </div>
           </div>

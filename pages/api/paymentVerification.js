@@ -19,7 +19,7 @@ const handler= async (req, res)=> {
         let products = afterorder.products;
         console.log(products);
         for (let itemsslug in products) {
-            await Product.findOneAndUpdate({ slug: itemsslug }, {$inc:{avaiableQty: - products[itemsslug]["qty"]}});
+            let finalproduct = await Product.findOneAndUpdate({ slug: itemsslug }, { $inc: { avaiableQty: - products[itemsslug]["qty"] } }, { returnDocument: 'after' });
         }
     } else {
         await Order.findByIdAndUpdate(finalorder._id, { status: 'Abort' })

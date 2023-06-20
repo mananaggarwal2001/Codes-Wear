@@ -15,9 +15,9 @@ export default async function handler(req, res) {
                 console.log(product)
                 sumTotal = sumTotal + (product.price * cart[item].qty);
                 // check if the item are out of stock or not.
-                
+
                 if (product.avaiableQty < cart[item].qty) {
-                    res.status(500).json({ success: false, error: 'Item is out of stock. New Stock will coming soon' });
+                    res.status(500).json({ success: false, error: 'Some items Went Out of Stock. New Stock will coming soon!!!!!!!!!!' });
                     return;
                 }
                 if (product.price != cart[item].Price) {
