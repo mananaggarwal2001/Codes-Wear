@@ -1,11 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
+import pincodes from '../../data/pincodes.json'
 export default function handler(req, res) {
 
-    let pincodes = {
-        "110092": ["Delhi", "Delhi"],
-        "721302": ["Kharakpur", "Web Bengal"],
-        "560017":["Banglore", "Karnataka"]
-    }
+    let areapincodes = pincodes;
     res.status(200).json(pincodes)
 }

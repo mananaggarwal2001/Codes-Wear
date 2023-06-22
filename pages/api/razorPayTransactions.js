@@ -3,7 +3,7 @@ connectToMongo()
 import razorpayfinal from "@/middleware/razorPay"
 import Order from "@/models/Order";
 import Product from "@/models/Product";
-
+import pincodes from '../../data/pincodes.json'
 export default async function handler(req, res) {
     const { cart, subTotal, email, name, phone, pincode, address } = req.body;
     try {
@@ -33,8 +33,13 @@ export default async function handler(req, res) {
                 res.status(500).json({ success: false, error: 'Total Price is being tampered' });
                 return;
             }
-            // check if the details are valid or not for getting the order to the right customer.
-            // for getting the phone number
+
+            // check if the pincode is serviciable
+            if (!Object.keys(pincodes).includes(pincode)) {
+                res.status(500).json({ success: false, error: 'Pincode is not Serviciable !!' });
+                return;
+            }
+
             if (phone.length !== 10 || !Number.isInteger(Number(phone))) {
                 res.status(500).json({ success: false, error: 'Please Enter a Valid phone Number!!!' })
                 return;
