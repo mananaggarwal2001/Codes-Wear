@@ -5,14 +5,18 @@ connectToMongo()
 import { useRouter } from 'next/router'
 import Product from '@/models/Product';
 import { ToastContainer, toast } from 'react-toastify';
+import Error from 'next/error';
 import 'react-toastify/dist/ReactToastify.css';
 const Slug = (props) => {
-  const { addToCart, clearCart, buyNow } = props;
+  const { addToCart, clearCart, buyNow, error } = props;
   const Router = useRouter();
   const { slug } = Router.query;
   const [Pin, setPin] = useState()
   const [Serviciability, setServicablity] = useState()
   const { product, variant } = props;
+  if (product === null || product === undefined) {
+    return <Error statusCode={error} /> // for handling the particular error for the given page.
+  }
 
   // function for checking the services whether the services are present in that particular state or not.
   const checkserviceablity = async () => {
@@ -32,10 +36,11 @@ const Slug = (props) => {
   const handlePinChange = (e) => {
     setPin(e.target.value)
   }
-  const [color, setcolor] = useState(product.color)
-  const [size, setSize] = useState(product.size)
+  const [color, setcolor] = useState("")
+  const [size, setSize] = useState("")
 
   useEffect(() => {
+
     setcolor(product.color)
     setSize(product.size)
   }, [Router.query])
@@ -130,11 +135,11 @@ const Slug = (props) => {
                   <span className="mr-3">Size</span>
                   <div className="relative">
                     <select value={size} onChange={(e) => refreshVariant(e.target.value, color)} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
-                      {Object.keys(variant[color]).includes('S') && <option value='S'>S</option>}
-                      {Object.keys(variant[color]).includes('M') && <option value='M'>M</option>}
-                      {Object.keys(variant[color]).includes('L') && <option value='L'>L</option>}
-                      {Object.keys(variant[color]).includes('XL') && <option value='XL'>XL</option>}
-                      {Object.keys(variant[color]).includes('XXL') && <option value='XXL'>XXL</option>}
+                      {color &&  Object.keys(variant[color]).includes('S') && <option value='S'>S</option>}
+                      {color &&  Object.keys(variant[color]).includes('M') && <option value='M'>M</option>}
+                      {color &&  Object.keys(variant[color]).includes('L') && <option value='L'>L</option>}
+                      {color &&  Object.keys(variant[color]).includes('XL') && <option value='XL'>XL</option>}
+                      {color &&  Object.keys(variant[color]).includes('XXL') && <option value='XXL'>XXL</option>}
 
                     </select>
                     <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
@@ -146,9 +151,14 @@ const Slug = (props) => {
                 </div>
               </div>
               <div className="flex">
+                {product.avaiableQty<=0 ?
+                  <span className="title-font font-medium text-2xl text-gray-900">Out of Stock !</span>
+                  :
                 <span className="title-font font-medium text-2xl text-gray-900">₹{product.price}</span>
-                <button onClick={() => buyNow(slug, 1, product.price, `(${product.title}(${product.size}/${product.color})`, 'XL', 'Red')} className="flex items-center justify-center ml-8 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Buy Now</button>
-                <button onClick={() => { addToCart(slug, 1, product.price, `(${product.title}(${product.size}/${product.color})`, 'XL', 'Red') }} className="flex items-center justify-center ml-3 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Add To Cart</button>
+                }
+
+                <button disabled={product.avaiableQty<=0} onClick={() => buyNow(slug, 1, product.price, `(${product.title}(${product.size}/${product.color})`, 'XL', 'Red')} className="disabled:bg-pink-400 flex items-center justify-center ml-8 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Buy Now</button>
+                <button disabled={product.avaiableQty<=0} onClick={() => { addToCart(slug, 1, product.price, `(${product.title}(${product.size}/${product.color})`, 'XL', 'Red') }} className="disabled:bg-pink-400 flex items-center justify-center ml-3 text-white md:text-base font-bold text-xs bg-pink-500 border-0 py-2 md:px-6 px-2 focus:outline-none hover:bg-pink-600 rounded">Add To Cart</button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5" viewBox="0 0 24 24">
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
@@ -170,6 +180,11 @@ const Slug = (props) => {
 
 export async function getServerSideProps(context) {
   let finalproduct = await Product.findOne({ slug: context.query.slug })// for finding the particular product in the database when the user click on the particular vairant.
+  if (finalproduct == null) {
+    return {
+      props: { error: 404 } // for returning the product and the variant for populating the particular slug page for finding the particular product.
+    };
+  }
   let variants = await Product.find({ title: finalproduct.title, category: finalproduct.category }) // for finding the variants of the t-shirts for the same title and then show in the slug component.
   console.log(variants);
   let colorSizeSlug = {} // for storing the different colors in the given Slug for finding the variants of the TShirts which are available in the market.
