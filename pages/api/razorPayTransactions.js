@@ -9,13 +9,16 @@ export default async function handler(req, res) {
     try {
 
         if (req.method == 'POST') {
+            if (subTotal <= 0) {
+                res.status(500).json({ success: false, error: 'Please Build your cart and try Again for doing the payment!!!' })
+                return;
+            }
             let sumTotal = 0, product = 0;
             for (let item in cart) {
                 product = await Product.findOne({ slug: item })
                 console.log(product)
                 sumTotal = sumTotal + (product.price * cart[item].qty);
                 // check if the item are out of stock or not.
-
                 if (product.avaiableQty < cart[item].qty) {
                     res.status(500).json({ success: false, error: 'Some items Went Out of Stock. New Stock will coming soon!!!!!!!!!!' });
                     return;
@@ -31,6 +34,15 @@ export default async function handler(req, res) {
                 return;
             }
             // check if the details are valid or not for getting the order to the right customer.
+            // for getting the phone number
+            if (phone.length !== 10 || !Number.isInteger(Number(phone))) {
+                res.status(500).json({ success: false, error: 'Please Enter a Valid phone Number!!!' })
+                return;
+            }
+            if (pincode.length !== 6 || !Number.isInteger(Number(pincode))) { // if a given pincode length and pincode is not integer then throw the error.
+                res.status(500).json({ success: false, error: 'Please Enter a Valid pincode!!' })
+                return;
+            }
 
             // intiate an order accroding to the generated the order id
 

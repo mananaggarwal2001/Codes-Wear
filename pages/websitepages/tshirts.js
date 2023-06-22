@@ -53,8 +53,8 @@ const tshirts = (props) => {
 }
 
 export async function getServerSideProps(context) {
-  let finalproducts = await Product.find({category:'t-shirts'}) // for finding all the products from the database.
-  let tshirts = {}; 
+  let finalproducts = await Product.find({ category: 't-shirts' }) // for finding all the products from the database.
+  let tshirts = {};
   for (let item of finalproducts) {
     if (item.title in tshirts) {
       if (!tshirts[item.title].color.includes(item.color) && item.avaiableQty > 0) {
@@ -70,6 +70,9 @@ export async function getServerSideProps(context) {
       if (item.avaiableQty > 0) {
         tshirts[item.title].color = [item.color]
         tshirts[item.title].size = [item.size]
+      } else {
+        tshirts[item.title].color = [] // if the tshirts is empty then do this.
+        tshirts[item.title].size = []
       }
 
     }

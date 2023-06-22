@@ -100,7 +100,6 @@ const checkout = (props) => {
       finaloutput.open()
     } else {
       toast.error(finalresponse.error);
-      clearCart()
     }
   }
   return (
@@ -152,7 +151,7 @@ const checkout = (props) => {
           <div className="w-1/2">
             <div class="mb-4">
               <label htmlfor="PhoneNumber" class="leading-7 text-sm text-gray-600">Phone Number</label>
-              <input onChange={handleChange} value={phone} type="phone" id="PhoneNumber" name="PhoneNumber" class="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Phone-Number' />
+              <input  onChange={handleChange} value={phone} type="phone" id="PhoneNumber" name="PhoneNumber" class="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your 10 Digit Phone Number' />
             </div>
           </div>
           <div className="px-2 w-1/2">
@@ -172,7 +171,7 @@ const checkout = (props) => {
           <div className="px-2 w-1/2">
             <div class="mb-4 ">
 
-              <label htmlfor="city" class="leading-7 text-sm text-gray-600">City</label>
+              <label htmlfor="city" class="leading-7 text-sm text-gray-600">District</label>
               <input onChange={handleChange} value={city} type="text" id="city" name="city" class=" read-only:bg-slate-200  w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your City' />
 
 

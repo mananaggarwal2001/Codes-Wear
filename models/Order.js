@@ -34,6 +34,10 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'Intiate'
+    },
+    deliveryStatus: {
+        type: String,
+        default: 'unshipped'
     }
 
 }, { timestamps: true })

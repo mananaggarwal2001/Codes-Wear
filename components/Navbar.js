@@ -1,24 +1,37 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../pages/Images/logo.png'
 import Link from 'next/link'
 import { AiOutlineShoppingCart, AiFillCloseCircle, AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { MdAccountCircle } from 'react-icons/md'
 import { useRef } from 'react'
 import { BsFillBagCheckFill } from 'react-icons/Bs'
+import { useRouter } from 'next/router'
 const Navbar = (props) => {
     const { logout, cart, addToCart, removeFromCart, clearCart, subTotal, user } = props
     const ref = useRef()
     const [dropdown, setdropdown] = useState(false)
-    const toggleCart = () => {
-        if (ref.current.classList.contains('translate-x-full')) {
-            ref.current.classList.remove('translate-x-full');
-            ref.current.classList.add('translate-x-0');
-        } else if (!ref.current.classList.contains('translate-x-full')) {
-            ref.current.classList.remove('translate-x-0')
-            ref.current.classList.add('translate-x-full')
+    const [sidebar, setsidebar] = useState(false)
+    useEffect(() => {
+        const endpoints = ['/websitepages/checkout', '/websitepages/order', '/websitepages/orders', '/websitepages/myaccount']
+        if (!localStorage.getItem('Cart')) {
+            setsidebar(true);
         }
+        if (endpoints.includes(router.pathname)) {
+            setsidebar(true);
+        }
+
+    }, [cart, sidebar])
+
+
+    const toggleCart = () => {
+        setsidebar(!sidebar)
     }
+    const router = useRouter()
+    const handlecheckoutbutton = () => {
+        router.push('/websitepages/checkout');
+    }
+
     return (
         <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full bg-white z-10 fixed top-0'>
             <div className="logo mr-auto md:mx-5">
@@ -39,8 +52,9 @@ const Navbar = (props) => {
                     {user.token && <MdAccountCircle onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className=' text-xl md:text-3xl cursor-pointer' />}
                     {dropdown && <div onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className="absolute right-12 bg-pink-400 top-7 px-5 rounded-md w-40  cursor-pointer">
                         <ul>
-                            <li className=' my-3 hover:text-pink-500 font-semibold text-white'>My Accounts</li>
-                            <Link href={'/websitepages/orders'}><li className='text-white my-3 hover:text-pink-500 font-semibold'>Orders</li></Link>
+                            <Link href={'/websitepages/myaccount'}><li className=' my-3 hover:text-pink-500 font-semibold text-white'>My Accounts</li></Link>
+                            <Link href={'/websitepages/orders'}><li className='text-white my-3 hover:text-pink-500 font-semibold'>Orders</li>
+                            </Link>
                             <li onClick={logout} className=' my-3 hover:text-pink-500 font-semibold text-white'>Logout</li>
                         </ul>
                     </div>
@@ -57,7 +71,7 @@ const Navbar = (props) => {
 
             </div>
 
-            <div ref={ref} className={`sidebar overflow-y-auto absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform ${Object.keys(cart).length === 0 ? 'translate-x-full' : 'translate-x-0'} duration-500 w-96 h-[100vh]`}>
+            <div ref={ref} className={`sidebar overflow-y-auto absolute top-0 right-0 bg-pink-100 px-8 py-10 transition-transform ${sidebar ? 'translate-x-full' : 'translate-x-0'} duration-500 w-96 h-[100vh]`}>
                 <h2 className='font-bold text-xl text-center'>Shopping Cart</h2>
                 <span onClick={toggleCart} className='absolute top-5 right-3 text-2xl cursor-pointer text-pink-500'><AiFillCloseCircle />
                 </span>
@@ -86,9 +100,10 @@ const Navbar = (props) => {
                 </ol>
                 <div className="total font-semibold mt-6 text-lg">Subtotal: ₹{subTotal}</div>
                 <div className='flex justify-center space-x-7'>
-                    <Link href={'/websitepages/checkout'}><button className="flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='me-2' /> <span className='font-semibold'> CheckOut</span> </button>
-                    </Link>
-                    <button onClick={clearCart} className="flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><span className='font-semibold'> Clear Cart</span> </button>
+
+
+                    <button disabled={Object.keys(cart).length === 0} onClick={handlecheckoutbutton} className=" disabled:bg-pink-300 flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><BsFillBagCheckFill className='me-2' /> <span className='font-semibold'> CheckOut</span> </button>
+                    <button disabled={Object.keys(cart).length === 0} onClick={clearCart} className=" disabled:bg-pink-300 flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-sm"><span className='font-semibold'> Clear Cart</span> </button>
                 </div>
             </div>
         </div>

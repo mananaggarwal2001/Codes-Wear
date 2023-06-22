@@ -32,16 +32,21 @@ const Slug = (props) => {
   const handlePinChange = (e) => {
     setPin(e.target.value)
   }
-
-  const refreshVariant = (newSize, newColor) => {
-
-    console.log(newSize, newColor)
-    let url = `${process.env.NEXT_PUBLIC_HOST}/products/${variant[newColor][newSize]['slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
-    window.location = url; // this option will redirect to that paritcular url by using the window.location method and redirect to the correct url.
-  }
-
   const [color, setcolor] = useState(product.color)
   const [size, setSize] = useState(product.size)
+
+  useEffect(() => {
+    setcolor(product.color)
+    setSize(product.size)
+  }, [Router.query])
+
+  const refreshVariant = (newSize, newColor) => {
+    console.log(newSize, newColor)
+    let url = `${process.env.NEXT_PUBLIC_HOST}/products/${variant[newColor][newSize]['slug']}` // for creating the url when the user changes the color then the options will also change in the given url.
+    Router.push(url)// this option will redirect to that paritcular url by using the window.location method and redirect to the correct url.
+  }
+
+
   // for implementing the buy now function to add the product and directly checkout the product on the given function.
 
   return (
