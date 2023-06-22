@@ -48,6 +48,7 @@ const orders = () => {
                         <th scope="col" className="px-6 py-4">OrderID</th>
                         <th scope="col" className="px-6 py-4">Name</th>
                         <th scope="col" className="px-6 py-4">Amount</th>
+                        <th scope="col" className="px-6 py-4">Created At</th>
                         <th scope="col" className="px-6 py-4">Details</th>
                       </tr>
                     </thead>
@@ -58,6 +59,7 @@ const orders = () => {
                             <td className="whitespace-nowrap px-6 py-4 font-medium">{items.orderID}</td>
                             <td className="whitespace-nowrap px-6 py-4">{items.name}</td>
                             <td className="whitespace-nowrap px-6 py-4">{items.amount}</td>
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold">{`${new Date(items.createdAt).toLocaleDateString('en-in', {weekday:'long' ,day: "numeric", month: "long" , year: "numeric"  })}`}</td>
                             <td className="whitespace-nowrap px-6 py-4 hover:text-pink-800 hover:underline font-bold"><Link href={`/websitepages/order?Orderid=${items._id}`}>Details</Link></td>
                           </tr>
                         )

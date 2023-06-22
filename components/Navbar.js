@@ -53,7 +53,7 @@ const Navbar = (props) => {
                     {dropdown && <div onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className="absolute right-12 bg-pink-400 top-7 px-5 rounded-md w-40  cursor-pointer">
                         <ul>
                             <Link href={'/websitepages/myaccount'}><li className=' my-3 hover:text-pink-500 font-semibold text-white'>My Accounts</li></Link>
-                            <Link href={'/websitepages/orders'}><li className='text-white my-3 hover:text-pink-500 font-semibold'>Orders</li>
+                            <Link href={'/websitepages/orders'}><li className='text-white my-3 hover:text-pink-500 font-semibold'>My Orders</li>
                             </Link>
                             <li onClick={logout} className=' my-3 hover:text-pink-500 font-semibold text-white'>Logout</li>
                         </ul>
