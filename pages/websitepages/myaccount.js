@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const myaccount = (props) => {
     const { cart, addToCart, removeFromCart, clearCart, subTotal } = props
     const [user, setUser] = useState()
@@ -10,22 +11,55 @@ const myaccount = (props) => {
     const [pincode, setpincode] = useState('')
     const [phoneNumber, setphoneNumber] = useState('')
     const [confirmpassword, setconfirmpassword] = useState('')
+    const [newpassword, setnewpassword] = useState('')
     const [name, setname] = useState('')
     const router = useRouter()
 
-    const updateuserpassword = async (e) => {
+    const handleUserDetails = async (e) => {
         e.preventDefault()
         const parsedData = await JSON.parse(localStorage.getItem('myuser'))
-        const data = { token: parsedData.token }
-        const response = await fetch("http://localhost:3000/api/getuser", {
+        const data = { token: parsedData.token, email, address, pincode, phoneNumber, name }
+        const response = await fetch("http://localhost:3000/api/updateuser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
-        const finalresponse = await response.json()
-        console.log(finalresponse)
+        const details = await response.json()
+        if (details.success) {
+            toast.success(details.message)
+        } else {
+            toast.error(details.error)
+        }
+
+    }
+    const handlePasswordSubmit = async (e) => {
+        e.preventDefault()
+        if (newpassword == confirmpassword) {
+
+            const parsedData = await JSON.parse(localStorage.getItem('myuser'))
+            const data = { token: parsedData.token, password, confirmpassword, newpassword }
+            const response = await fetch("http://localhost:3000/api/updatepassword", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const details = await response.json()
+            if (details.success) {
+                toast.success(details.message)
+
+            } else {
+                toast.error(details.error)
+            }
+        } else {
+            toast.error('New Password And Confirm Password Doesn\'t Match !!')
+        }
+        setpassword('')
+        setconfirmpassword('')
+        setnewpassword('')
     }
     const handleChange = (e) => {
         if (e.target.name == 'name') {
@@ -40,7 +74,25 @@ const myaccount = (props) => {
             setpincode(e.target.value)
         } else if (e.target.name == 'phoneNumber') {
             setphoneNumber(e.target.value)
+        } else if (e.target.name == 'npassword') {
+            setnewpassword(e.target.value)
         }
+    }
+
+    const fetchUserDetails = async (token) => {
+        const data = { token }
+        const response = await fetch("http://localhost:3000/api/updateuser", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        const finalresponse = await response.json()
+        setname(finalresponse.user.Name);
+        setaddress(finalresponse.user.Address);
+        setpincode(finalresponse.user.Pincode);
+        setphoneNumber(finalresponse.user.PhoneNumber)
     }
     useEffect(() => {
         const result = JSON.parse(localStorage.getItem('myuser'))
@@ -50,6 +102,8 @@ const myaccount = (props) => {
         if (result && result.token) {
             setUser(result)
             setEmail(result.email)
+            fetchUserDetails(result.token);
+
         }
 
     }, [router])
@@ -57,6 +111,18 @@ const myaccount = (props) => {
     return (
         <>
             <div className='mt-20 my-10 container px-20'>
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={1000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
                 <h1 className='text-3xl text-center font-semibold my-10 mt-10'>Update Your Account</h1>
                 <h1 className='font-semibold text-xl mb-4'>1. Default Delivery Details</h1>
                 <div className="mx-auto flex">
@@ -98,19 +164,27 @@ const myaccount = (props) => {
                     </div>
                 </div>
                 <div className='flex justify-center'>
-                    <button className=" text-base disabled:bg-pink-300 flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded "><span className='font-semibold'> Submit</span> </button>
+                    <button onClick={handleUserDetails} className=" text-base disabled:bg-pink-300 flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded "><span className='font-semibold'> Submit</span> </button>
                 </div>
                 <h1 className='font-semibold text-xl mb-4 mt-7'>2. Change Password</h1>
                 <div className="mx-auto flex">
                     <div className="w-1/2">
                         <div class="mb-4">
-                            <label htmlfor="name" class="leading-7 text-sm text-gray-600">Password</label>
+                            <label htmlfor="name" class="leading-7 text-sm text-gray-600">Current Password</label>
                             <input onChange={handleChange} type="password" id="name" name="password" class="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='New Password' value={password} />
                         </div>
                     </div>
                     <div className="px-2 w-1/2">
                         <div class="mb-4 ">
-                            <label htmlfor="email" class="leading-7 text-sm text-gray-600">Confirm Password</label>
+                            <label htmlfor="email" class="leading-7 text-sm text-gray-600">New Password</label>
+
+                            <input value={newpassword} onChange={handleChange} type="password" id="npassword" name="npassword" class=" w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='New Password' />
+
+                        </div>
+                    </div>
+                    <div className="px-2 w-1/2">
+                        <div class="mb-4 ">
+                            <label htmlfor="email" class="leading-7 text-sm text-gray-600">Confirm New Password</label>
 
                             <input value={confirmpassword} onChange={handleChange} type="password" id="cpassword" name="cpassword" class=" w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Confirm Password' />
 
@@ -118,7 +192,7 @@ const myaccount = (props) => {
                     </div>
                 </div>
                 <div className='flex justify-center'>
-                    <button onClick={updateuserpassword} className=" text-base disabled:bg-pink-300 flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded "><span className='font-semibold'>Change Password</span> </button>
+                    <button onClick={handlePasswordSubmit} className=" text-base disabled:bg-pink-300 flex justify-center items-center  mt-6 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded "><span className='font-semibold'>Change Password</span> </button>
                 </div>
             </div>
         </>

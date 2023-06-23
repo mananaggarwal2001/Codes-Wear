@@ -5,7 +5,7 @@ import Order from "@/models/Order";
 import Product from "@/models/Product";
 import pincodes from '../../data/pincodes.json'
 export default async function handler(req, res) {
-    const { cart, subTotal, email, name, phone, pincode, address } = req.body;
+    const { cart, subTotal, email, name, phone, pincode, address, city, state } = req.body;
     try {
 
         if (req.method == 'POST') {
@@ -63,6 +63,10 @@ export default async function handler(req, res) {
                 name: name,
                 paymentInfo: 'This is the new info for doing the payment',
                 address: address,
+                city: city,
+                state: state,
+                pincode: pincode,
+                phone: phone,
                 amount: Number.parseInt(subTotal),
                 products: cart
             })

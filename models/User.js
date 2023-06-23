@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
     State: {
         type: String,
         default: ''
+    },
+    Pincode: {
+        type: String,
+        default: ''
+    },
+    PhoneNumber: {
+        type: String,
+        default: ''
     }
 
 
