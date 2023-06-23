@@ -9,7 +9,7 @@ const stickers = (props) => {
     console.log(products)
     return (
         <div>
-            <section className="text-gray-600 body-font flex justify-around">
+            <section className="text-gray-600 body-font flex justify-around min-h-screen">
                 <div className="container px-5 py-24 ">
                     <div className="flex flex-wrap items-center">
                         {Object.keys(products).length === 0 && <div className='mx-auto'>

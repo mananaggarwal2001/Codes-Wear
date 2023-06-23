@@ -1,16 +1,77 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const forgotpassword = () => {
-    const Router= useRouter()
+    const Router = useRouter()
+    const [email, setemail] = useState('')
+    const [nPassword, setnpassword] = useState('')
+    const [cpassword, setcpassword] = useState('')
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        if (localStorage.getItem('myuser')) {
             Router.push('/')
         }
     }, [])
+    const handleChange = (e) => {
+        if (e.target.name === 'email') {
+            setemail(e.target.value)
+        } else if (e.target.name === 'npassword') {
+            setnpassword(e.target.value)
+        } else if (e.target.name === 'cpassword') {
+            setcpassword(e.target.value)
+        }
+    }
+
+    const disabled = () => {
+        if (nPassword !== cpassword) {
+            return true
+        }
+        return false;
+    }
+
+    const sendResetEmail = async () => {
+        const data = { email, sendMail: true }
+        const response = await fetch("http://localhost:3000/api/forgotpassword", {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        const finalresponse = await response.json()
+        console.log(finalresponse)
+        if (finalresponse.success) {
+            console.log('password sending email has being send your account')
+        } else {
+            console.log('Email doesn\'t exist!!')
+        }
+    }// for sending the reset email
+    const resetPassword = async () => {
+        if (nPassword === cpassword) {
+            const data = { nPassword, sendMail: false }
+            const response = await fetch("http://localhost:3000/api/forgotpassword", {
+                method: "POST", // or 'PUT'
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const finalresponse = await response.json()
+            console.log(finalresponse)
+            if (finalresponse.success) {
+                console.log('password sending email has being send your account')
+            } else {
+                console.log('Email doesn\'t exist!!')
+            }
+
+        } else {
+            console.log('new password and confirm password doesn\'t match')
+        }
+
+
+    }// for chaning the password
 
     return (
         <div>
@@ -27,16 +88,35 @@ const forgotpassword = () => {
                         </div>
                     </div>
                     <div className="lg:w-1/2 md:w-2/3 mx-auto">
-                        <div className="flex flex-wrap -m-2">
+                        {Router.query.token && <div className="flex flex-wrap -m-2">
                             <div className="p-2 w-full">
                                 <div >
-                                    <input type="email" id="email" name="email" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-pink-500 focus:bg-white focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Email Address' required />
+                                    <input onChange={handleChange} type="password" id="npassword" name="npassword" value={nPassword} className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-pink-500 focus:bg-white focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='New Password' required />
+                                </div>
+                                <div >
+                                    <input onChange={handleChange} value={cpassword} type="password" id="cpassword" name="cpassword" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-pink-500 focus:bg-white focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Confirm New Password' required />
                                 </div>
                             </div>
                             <div className=" p-2 w-full space-y-7">
-                                <button className="flex mx-auto text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg font-semibold">Continue</button>
+
+                                <button disabled={nPassword.length==0 || cpassword.length==0} onClick={resetPassword} className=" disabled:bg-pink-300 flex mx-auto text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg font-semibold">Change Password</button>
                             </div>
+                            {nPassword!==cpassword && <span className='text-red-500'>Password Not Matched</span>}
+                            {nPassword && nPassword===cpassword && <span className='text-green-600'>Password Successfully Matched</span>}
                         </div>
+                        }
+                        {!Router.query.token &&
+                            <div className="flex flex-wrap -m-2">
+                                <div className="p-2 w-full">
+                                    <div >
+                                        <input type="email" id="email" name="email" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-pink-500 focus:bg-white focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Your Email Address' onChange={handleChange} value={email} required />
+                                    </div>
+                                </div>
+                                <div className=" p-2 w-full space-y-7">
+                                    <button onClick={sendResetEmail} className="flex mx-auto text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg font-semibold">Continue</button>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </section>

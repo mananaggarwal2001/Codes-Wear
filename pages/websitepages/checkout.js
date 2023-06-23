@@ -72,14 +72,14 @@ const checkout = (props) => {
     } else if (e.target.name === 'address') {
       setaddress(e.target.value)
     }
-      if (user.token) {
-        setemail(user.email)
-      }
+    if (user.token) {
+      setemail(user.email)
+    }
     if (name.length > 2 && email.length > 2 && phone.length > 2 && pincode.length > 2 && address.length > 2) {
-        setdisabled(false)
-      } else {
-        setdisabled(true)
-      }
+      setdisabled(false)
+    } else {
+      setdisabled(true)
+    }
   }
 
   // for doing the payments
