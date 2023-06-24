@@ -19,6 +19,7 @@
     "mongoose": "^7.1.1",
     "net": "^1.0.2",
     "next": "13.4.1",
+    "nodemailer": "^6.9.3",
     "paytmchecksum": "^1.5.0",
     "postcss": "8.4.23",
     "razorpay": "^2.8.6",
@@ -30,9 +31,9 @@
     "tailwindcss": "3.3.2",
     "tls": "^0.0.1"
   },
-  "browser":{
-    "tls":false,
-    "net":false,
-    "fs":false
+  "browser": {
+    "tls": false,
+    "net": false,
+    "fs": false
   }
 }

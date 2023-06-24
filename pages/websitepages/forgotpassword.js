@@ -9,6 +9,7 @@ const forgotpassword = () => {
     const [email, setemail] = useState('')
     const [nPassword, setnpassword] = useState('')
     const [cpassword, setcpassword] = useState('')
+    const [secret, setsecret] = useState('')
     useEffect(() => {
         if (localStorage.getItem('myuser')) {
             Router.push('/')
@@ -24,12 +25,7 @@ const forgotpassword = () => {
         }
     }
 
-    const disabled = () => {
-        if (nPassword !== cpassword) {
-            return true
-        }
-        return false;
-    }
+
 
     const sendResetEmail = async () => {
         const data = { email, sendMail: true }
@@ -43,14 +39,18 @@ const forgotpassword = () => {
         const finalresponse = await response.json()
         console.log(finalresponse)
         if (finalresponse.success) {
-            console.log('password sending email has being send your account')
+            console.log(finalresponse.secret)
+            setsecret(finalresponse.secret);
         } else {
             console.log('Email doesn\'t exist!!')
         }
     }// for sending the reset email
     const resetPassword = async () => {
         if (nPassword === cpassword) {
-            const data = { nPassword, sendMail: false }
+            const token = Router.query.token
+
+            const data = { nPassword, sendMail: false, token: token, secret: secret }
+            console.log(secret);
             const response = await fetch("http://localhost:3000/api/forgotpassword", {
                 method: "POST", // or 'PUT'
                 headers: {
@@ -60,9 +60,11 @@ const forgotpassword = () => {
             });
             const finalresponse = await response.json()
             console.log(finalresponse)
+            console.log(finalresponse.success)
             if (finalresponse.success) {
-                console.log('password sending email has being send your account')
+                alert(finalresponse.message)
             } else {
+                alert(finalresponse.error);
                 console.log('Email doesn\'t exist!!')
             }
 
@@ -99,10 +101,10 @@ const forgotpassword = () => {
                             </div>
                             <div className=" p-2 w-full space-y-7">
 
-                                <button disabled={nPassword.length==0 || cpassword.length==0} onClick={resetPassword} className=" disabled:bg-pink-300 flex mx-auto text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg font-semibold">Change Password</button>
+                                <button disabled={nPassword.length == 0 || cpassword.length == 0} onClick={resetPassword} className=" disabled:bg-pink-300 flex mx-auto text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg font-semibold">Change Password</button>
                             </div>
-                            {nPassword!==cpassword && <span className='text-red-500'>Password Not Matched</span>}
-                            {nPassword && nPassword===cpassword && <span className='text-green-600'>Password Successfully Matched</span>}
+                            {nPassword !== cpassword && <span className='text-red-500'>Password Not Matched</span>}
+                            {nPassword && nPassword === cpassword && <span className='text-green-600'>Password Successfully Matched</span>}
                         </div>
                         }
                         {!Router.query.token &&
