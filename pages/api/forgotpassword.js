@@ -33,39 +33,40 @@ We have sent you this email in response to your request to reset your password o
 
 To reset your password please follow the link below:
 
-<a href=${createdLink}>Click here to reset your password.</a>
+<strong><a href=${createdLink}>Click here to reset your password.</a></strong>
 
-<br/><br/>
+</br></br>
 
 We recommend that you keep your password secure and not share it with anyone.If you feel your password has been compromised, you can change it by going to your My Account Page and change your password.
 
 <br/><br/>
 
 </span>`
-            let testaccount = nodemailer.createTestAccount()
 
             const transporter = nodemailer.createTransport({
-                host: 'smtp.ethereal.email',
-                port: 587,
+                service: 'Gmail',
+                // host: 'smtp.gmail.com',
+                // port: 465,
+                // secure:true,
                 auth: {
-                    user: 'nayeli.gutkowski53@ethereal.email',
-                    pass: '58CBXrJ6puk7kd7jGx'
+                    user: process.env.GOOGLE_EMAIL,
+                    pass: process.env.GOOGLE_PASSWORD
                 }
             });
             let mailoptions = {
-                from: '',
+                from: process.env.GOOGLE_EMAIL,
                 to: email,
                 subject: 'Password Reset Link',
-                text: messageemail,
+                html: messageemail,
             }
 
-           let finalresult=   transporter.sendMail(mailoptions, (error, response) => {
+            let finalresult = transporter.sendMail(mailoptions, (error, response) => {
                 if (error) {
                     console.log(error)
                 } else {
                     console.log(response);
                 }
-           })
+            })
             console.log(finalresult)
 
 
