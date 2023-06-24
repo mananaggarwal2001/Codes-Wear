@@ -60,15 +60,12 @@ We recommend that you keep your password secure and not share it with anyone.If 
                 html: messageemail,
             }
 
-            let finalresult = transporter.sendMail(mailoptions, (error, response) => {
+            transporter.sendMail(mailoptions, (error, response) => {
                 if (error) {
-                    console.log(error)
-                } else {
-                    console.log(response);
+                    res.status(400).json({ success: false, message: 'Internal Server Error', secret: secret })
+                    return;
                 }
             })
-            console.log(finalresult)
-
 
             res.status(200).json({ success: true, message: 'Email sent successfully on your Account', secret: secret })
         } else if (!req.body.sendMail) {

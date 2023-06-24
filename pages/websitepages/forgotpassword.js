@@ -3,7 +3,8 @@ import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const forgotpassword = () => {
     const Router = useRouter()
     const [email, setemail] = useState('')
@@ -39,10 +40,9 @@ const forgotpassword = () => {
         const finalresponse = await response.json()
         console.log(finalresponse)
         if (finalresponse.success) {
-            console.log(finalresponse.secret)
-            setsecret(finalresponse.secret);
+            toast.success(finalresponse.message)
         } else {
-            console.log('Email doesn\'t exist!!')
+            toast.error(finalresponse.error)
         }
     }// for sending the reset email
     const resetPassword = async () => {
@@ -62,10 +62,12 @@ const forgotpassword = () => {
             console.log(finalresponse)
             console.log(finalresponse.success)
             if (finalresponse.success) {
-                alert(finalresponse.message)
+                toast.success(finalresponse.message)
+                setTimeout(() => {
+                    Router.push('/');
+                }, 2500);
             } else {
-                alert(finalresponse.error);
-                console.log('Email doesn\'t exist!!')
+                toast.error(finalresponse.error)
             }
 
         } else {
@@ -79,6 +81,18 @@ const forgotpassword = () => {
         <div>
             <section className="text-gray-600 body-font relative">
                 <div className="container px-5 py-24 mx-auto">
+                    <ToastContainer
+                        position="bottom-left"
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss={false}
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                     <div className="flex flex-col text-center w-full mb-5 justify-center items-center">
                         <Image src={Logo} width={100} height={100} alt='CodeWear Logo' className='my-3 border-[2px] border-pink-700 rounded-[100%] p-3 shadow-md' />
                         <h1 className="sm:text-3xl text-2xl  title-font mb-4 font-bold">Forgot Password</h1>
