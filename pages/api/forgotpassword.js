@@ -64,10 +64,12 @@ We recommend that you keep your password secure and not share it with anyone.If 
                 if (error) {
                     res.status(400).json({ success: false, message: 'Internal Server Error', secret: secret })
                     return;
+                } else if(response) {
+                    console.log(response)
+                    res.status(200).json({ success: true, message: 'Email sent successfully on your Account', secret: secret })
                 }
             })
 
-            res.status(200).json({ success: true, message: 'Email sent successfully on your Account', secret: secret })
         } else if (!req.body.sendMail) {
             const { nPassword, token } = req.body;
             console.log(nPassword);
