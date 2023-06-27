@@ -2,42 +2,27 @@ const Menuitems = [
   {
     title: "Dashbaord",
     icon: "home",
-    href: "/",
+    href: "/websitepages/admin/adminpanel",
   },
   {
-    title: "Buttons",
-    icon: "disc",
-    href: "/buttons",
+    title: "Add Products",
+    icon: "plus-circle",
+    href: "/websitepages/admin/addproducts",
   },
   {
-    title: "Forms",
-    icon: "layout",
-    href: "/forms",
+    title: "View Products",
+    icon: "eye",
+    href: "/websitepages/admin/allproducts",
   },
   {
-    title: "Alerts",
-    icon: "info",
-    href: "/alerts",
+    title: "Image Uploader",
+    icon: "upload",
+    href: "/websitepages/admin/imageUploader",
   },
   {
-    title: "Ratings",
-    icon: "star",
-    href: "/rating",
-  },
-  {
-    title: "Images",
-    icon: "image",
-    href: "/image",
-  },
-  {
-    title: "Pagination",
-    icon: "user",
-    href: "/pagination",
-  },
-  {
-    title: "Tables",
-    icon: "grid",
-    href: "/table",
+    title: "Orders",
+    icon: "shopping-cart",
+    href: "/websitepages/admin/allorders",
   },
 ];
 
