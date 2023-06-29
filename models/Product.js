@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
     img: {
         type: String,
         required: true,
-        default: ''
+        default: 'https://m.media-amazon.com/images/I/71ISzvgAl2L._UX466_.jpg'
     },
     category: {
         type: String,

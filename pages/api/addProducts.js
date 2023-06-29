@@ -9,7 +9,6 @@ const handler = async (req, res) => {
                 title: objectBody.title,
                 slug: objectBody.slug,
                 desc: objectBody.description,
-                img: "objectBody.img",
                 category: objectBody.type,
                 size: objectBody.size,
                 color: objectBody.color,

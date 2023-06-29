@@ -47,7 +47,7 @@ const addproducts = () => {
     return (
         <ThemeProvider theme={theme}>
             <style jsx global>{`
-                footer{
+                footer,sidebar{
                     display:none;
                 }
             `}
