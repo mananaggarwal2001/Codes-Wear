@@ -41,10 +41,10 @@ const Navbar = (props) => {
 
             <div className="nav">
                 <ul className='flex items-center space-x-3 font-bold text-md md:text-md'>
-                    <Link href={'/websitepages/tshirts'}><li className='hover:underline cursor-pointer'>TShirts</li></Link>
-                    <Link href={'/websitepages/hoodies'}><li className='hover:underline'>Hoodies</li></Link>
-                    <Link href={'/websitepages/stickers'}><li className='hover:underline'>Stickers</li></Link>
-                    <Link href={'/websitepages/mugs'}><li className='hover:underline'>Mugs</li></Link>
+                    <Link href={'/websitepages/tshirts'}><a className='hover:underline cursor-pointer'>TShirts</a></Link>
+                    <Link href={'/websitepages/hoodies'}><a className='hover:underline'>Hoodies</a></Link>
+                    <Link href={'/websitepages/stickers'}><a className='hover:underline'>Stickers</a></Link>
+                    <Link href={'/websitepages/mugs'}><a className='hover:underline'>Mugs</a></Link>
                 </ul>
             </div>
             <div className="cart flex  absolute right-0 mx-3 top-5 space-x-4 items-center">
