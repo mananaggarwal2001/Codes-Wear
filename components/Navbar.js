@@ -41,7 +41,7 @@ const Navbar = (props) => {
 
             <div className="nav">
                 <ul className='flex items-center space-x-3 font-bold text-md md:text-md'>
-                    <Link href={'/websitepages/tshirts'}><li className='hover:underline'>TShirts</li></Link>
+                    <Link href={'/websitepages/tshirts'}><li className='hover:underline cursor-pointer'>TShirts</li></Link>
                     <Link href={'/websitepages/hoodies'}><li className='hover:underline'>Hoodies</li></Link>
                     <Link href={'/websitepages/stickers'}><li className='hover:underline'>Stickers</li></Link>
                     <Link href={'/websitepages/mugs'}><li className='hover:underline'>Mugs</li></Link>

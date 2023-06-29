@@ -3,31 +3,27 @@ connectToMongo()
 import Product from "@/models/Product";
 const handler = async (req, res) => {
     if (req.method == 'POST') {
+        const objectBody = JSON.parse(req.body);
         try {
-            for (let i = 0; i < req.body.length; i++)
-            {
-                let p = new Product({
-                    title: req.body[i].title,
-                    slug: req.body[i].slug,
-                    desc: req.body[i].desc,
-                    img: req.body[i].img,
-                    category: req.body[i].category,
-                    size: req.body[i].size,
-                    color: req.body[i].color,
-                    price: req.body[i].price,
-                    avaiableQty: req.body[i].avaiableQty
-                })
-                p.save()
-            }
-
-            res.status(200).json({ success:'succes added the result'})
+            let p = new Product({
+                title: objectBody.title,
+                slug: objectBody.slug,
+                desc: objectBody.description,
+                img: "objectBody.img",
+                category: objectBody.type,
+                size: objectBody.size,
+                color: objectBody.color,
+                price: objectBody.price,
+                avaiableQty: objectBody.quantity
+            })
+            await p.save()
+            res.status(200).json({ success: true, message: 'Successfully Added the Product' })
         } catch (error) {
             console.log(error.message)
-            res.status(500).json({error:'Internal Server Error'})
+            res.status(500).json({ success: false, error: 'Internal Server Error' })
         }
-
     } else {
-        res.status(400).json({ error: 'This request is not allowed' })
+        res.status(400).json({ success: false, error: 'This request is not allowed' })
     }
 }
 
