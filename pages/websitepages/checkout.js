@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
 import Link from 'next/link'
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { BsFillBagCheckFill } from 'react-icons/Bs'

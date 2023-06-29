@@ -5,6 +5,7 @@ import FullLayout from "../../../src/layouts/FullLayout";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, ImageList, ImageListItem } from "@mui/material";
 import BaseCard from "../../../src/components/baseCard/BaseCard";
+import Image from 'next/image';
 function srcset(image, size, rows = 1, cols = 1) {
     return {
         src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
@@ -116,7 +117,7 @@ const imageUploader = () => {
                                         cols={item.cols || 1}
                                         rows={item.rows || 1}
                                     >
-                                        <img
+                                        <Image
                                             {...srcset(item.img, 121, item.rows, item.cols)}
                                             alt={item.title}
                                             loading="lazy"

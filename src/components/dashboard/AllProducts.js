@@ -16,10 +16,6 @@ import Image from "next/image";
 
 const AllProducts = (props) => {
   const { products } = props;
-  useEffect(() => {
-    console.log(products)
-
-  }, [])
 
   return (
     <BaseCard title="Product Perfomance">

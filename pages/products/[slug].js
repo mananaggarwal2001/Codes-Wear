@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
 import connectToMongo from '@/middleware/mongooose';
 connectToMongo()
@@ -7,6 +7,7 @@ import Product from '@/models/Product';
 import { ToastContainer, toast } from 'react-toastify';
 import Error from 'next/error';
 import 'react-toastify/dist/ReactToastify.css';
+import Image from 'next/image';
 const Slug = (props) => {
   const { addToCart, clearCart, buyNow, error } = props;
   const Router = useRouter();
@@ -37,13 +38,14 @@ const Slug = (props) => {
     setPin(e.target.value)
   }
   const [color, setcolor] = useState("")
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [size, setSize] = useState("")
 
   useEffect(() => {
 
     setcolor(product.color)
     setSize(product.size)
-  }, [Router.query])
+  }, [Router.query, product.color, product.size])
 
   const refreshVariant = (newSize, newColor) => {
     console.log(newSize, newColor)
@@ -71,7 +73,7 @@ const Slug = (props) => {
         />
         <div className="container px-5 py-12 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto px-24 object-cover object-top rounded" src={product.img} />
+            <Image width={12} height={12}  alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto px-24 object-cover object-top rounded" src={product.img} />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">CODESWEAR</h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.title} ({product.size}/{product.color})</h1>

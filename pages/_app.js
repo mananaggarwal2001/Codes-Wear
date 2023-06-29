@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }) {
       setUser({ token: user.token, email: user.email })
     }
 
-  }, [Router.query]) // for re rendering the application on changing of the url of the application so that we haven't to re load the website again and again to change the things.
+  }, [Router.events, Router.query]) // for re rendering the application on changing of the url of the application so that we haven't to re load the website again and again to change the things.
 
   // saveCart item is used for saving the item in the localStorage so that  the given items should persist on the reloading of the webpage.
   const saveCart = (myCart) => {

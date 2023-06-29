@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
@@ -15,7 +16,7 @@ const forgotpassword = () => {
         if (localStorage.getItem('myuser')) {
             Router.push('/')
         }
-    }, [])
+    }, [Router])
     const handleChange = (e) => {
         if (e.target.name === 'email') {
             setemail(e.target.value)

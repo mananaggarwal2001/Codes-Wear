@@ -22,7 +22,7 @@ const Navbar = (props) => {
             setsidebar(true);
         }
 
-    }, [cart, sidebar])
+    }, [cart, router.pathname, sidebar])
 
 
     const toggleCart = () => {

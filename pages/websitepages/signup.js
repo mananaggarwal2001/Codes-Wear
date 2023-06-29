@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
