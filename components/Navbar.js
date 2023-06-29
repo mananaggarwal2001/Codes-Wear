@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import logo from '../pages/Images/logo.png'
@@ -21,7 +22,7 @@ const Navbar = (props) => {
             setsidebar(true);
         }
 
-    }, [cart, router.pathname, sidebar])
+    }, [cart, sidebar])
 
 
     const toggleCart = () => {
