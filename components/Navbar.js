@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { AiOutlineShoppingCart, AiFillCloseCircle, AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { MdAccountCircle } from 'react-icons/md'
 import { useRef } from 'react'
-import { BsFillBagCheckFill } from 'react-icons/Bs'
+import { BsFillBagCheckFill } from 'react-icons/bs'
 import { useRouter } from 'next/router'
 const Navbar = (props) => {
     const { logout, cart, addToCart, removeFromCart, clearCart, subTotal, user } = props
