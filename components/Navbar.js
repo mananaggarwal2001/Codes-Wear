@@ -7,7 +7,6 @@ import { MdAccountCircle } from 'react-icons/md'
 import { useRef } from 'react'
 import { BsFillBagCheckFill } from 'react-icons/Bs'
 import { useRouter } from 'next/router'
-import Error from 'next/error'
 const Navbar = (props) => {
     const { logout, cart, addToCart, removeFromCart, clearCart, subTotal, user } = props
     const ref = useRef()
