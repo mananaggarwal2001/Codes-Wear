@@ -3,7 +3,7 @@ import theme from "../../../src/theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import FullLayout from "../../../src/layouts/FullLayout";
 import { CssBaseline, Grid } from "@mui/material";
-import ProductPerfomance from "../../../src/components/dashboard/ProductPerfomance";
+import ProductPerfomance from "../../../src/components/dashboard/AllProducts";
 
 const allorders = () => {
     return (
