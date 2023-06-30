@@ -52,7 +52,7 @@ const forgotpassword = () => {
 
             const data = { nPassword, sendMail: false, token: token, secret: secret }
             console.log(secret);
-            const response = await fetch("http://localhost:3000/api/forgotpassword", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/forgotpassword`, {
                 method: "POST", // or 'PUT'
                 headers: {
                     "Content-Type": "application/json",

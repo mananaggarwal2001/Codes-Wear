@@ -22,7 +22,7 @@ const checkout = (props) => {
 
   const fetchUserDetails = async () => {
     const data = JSON.parse(localStorage.getItem('myuser'));
-    const response = await fetch("http://localhost:3000/api/updateuser", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateuser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const checkout = (props) => {
   const intiatePayment = async (e) => {
     e.preventDefault()
     const data = { cart, subTotal, email: email, name, phone, pincode, address, state, city }
-    const response = await fetch("http://localhost:3000/api/razorPayTransactions", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/razorPayTransactions`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const checkout = (props) => {
         "description": "Test Transaction",
         "image": logo,
         "order_id": finalresponse.finalresult.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "callback_url": "http://localhost:3000/api/paymentVerification",
+        "callback_url": `${process.env.NEXT_PUBLIC_HOST}/api/paymentVerification`,
         "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
           "name": "Gaurav Kumar", //your customer's name
           "email": "gaurav.kumar@example.com",
