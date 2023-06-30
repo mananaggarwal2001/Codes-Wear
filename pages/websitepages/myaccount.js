@@ -20,7 +20,7 @@ const myaccount = (props) => {
         e.preventDefault()
         const parsedData = await JSON.parse(localStorage.getItem('myuser'))
         const data = { token: parsedData.token, email, address, pincode, phoneNumber, name }
-        const response = await fetch("http://localhost:3000/api/updateuser", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateuser`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
