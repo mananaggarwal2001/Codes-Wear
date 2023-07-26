@@ -1,4 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 import connectToMongo from '@/middleware/mongooose';
+/* eslint-disable react-hooks/rules-of-hooks */
 import Link from 'next/link';
 connectToMongo()
 import React, { useEffect, useState } from 'react'

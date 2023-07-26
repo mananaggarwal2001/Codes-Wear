@@ -22,6 +22,7 @@ const stickers = (props) => {
                                 return (
                                     <div key={products[items]._id} className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
                                         <Link href={`../products/${products[items].slug}`} className="block relative  rounded overflow-hidden">
+                                            <a>
                                             <img alt="ecommerce" className=" h-[40vh] block m-auto" src={products[items].img} />
                                             <div className="mt-4 text-center">
                                                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1 uppercase">{products[items].category}</h3>
@@ -44,7 +45,8 @@ const stickers = (props) => {
                                                     {products[items].color.includes('Yellow') && <button className=" mx-1 border-2 bg-yellow-400 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
                                                     {products[items].color.includes('Purple') && <button className=" mx-1 border-2 bg-purple-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
                                                 </div>
-                                            </div>
+                                                </div>
+                                            </a>
                                         </Link>
                                     </div>
                                 )

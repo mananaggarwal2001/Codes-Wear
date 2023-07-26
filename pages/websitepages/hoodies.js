@@ -22,29 +22,31 @@ const hoodies = (props) => {
                 return (
                   <div key={products[items]._id} className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
                     <Link href={`../products/${products[items].slug}`} className="block relative  rounded overflow-hidden">
-                      <img alt="ecommerce" className=" h-[40vh] block m-auto" src={products[items].img} />
-                      <div className="mt-4 text-center">
-                        <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1 uppercase">{products[items].category}</h3>
-                        <h2 className="text-gray-900 title-font text-lg font-medium">{products[items].title}</h2>
-                        <p className="mt-1">₹{products[items].price}</p>
-                        <div className="mt-1">
-                          {products[items].size.includes('S') && <span className='mx-1  border border-gray-700 px-1'>S</span>}
-                          {products[items].size.includes('M') && <span className='mx-1  border border-gray-700 px-1 '>M</span>}
-                          {products[items].size.includes('L') && <span className='mx-1  border border-gray-700 px-1 '>L</span>}
-                          {products[items].size.includes('XL') && <span className='mx-1 border border-gray-700 px-1'>XL</span>}
-                          {products[items].size.includes('XXL') && <span className='mx-1 border border-gray-700 px-1'>XXL</span>}
-                          {products[items].size.includes('XXXL') && <span className='mx-1 border border-gray-700 px-1 '>XXXL</span>}
+                      <a>
+                        <img alt="ecommerce" className=" h-[40vh] block m-auto" src={products[items].img} />
+                        <div className="mt-4 text-center">
+                          <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1 uppercase">{products[items].category}</h3>
+                          <h2 className="text-gray-900 title-font text-lg font-medium">{products[items].title}</h2>
+                          <p className="mt-1">₹{products[items].price}</p>
+                          <div className="mt-1">
+                            {products[items].size.includes('S') && <span className='mx-1  border border-gray-700 px-1'>S</span>}
+                            {products[items].size.includes('M') && <span className='mx-1  border border-gray-700 px-1 '>M</span>}
+                            {products[items].size.includes('L') && <span className='mx-1  border border-gray-700 px-1 '>L</span>}
+                            {products[items].size.includes('XL') && <span className='mx-1 border border-gray-700 px-1'>XL</span>}
+                            {products[items].size.includes('XXL') && <span className='mx-1 border border-gray-700 px-1'>XXL</span>}
+                            {products[items].size.includes('XXXL') && <span className='mx-1 border border-gray-700 px-1 '>XXXL</span>}
 
+                          </div>
+                          <div className="mt-3">
+                            {products[items].color.includes('Red') && <button className=" mx-1 border-2 bg-red-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                            {products[items].color.includes('Blue') && <button className=" mx-1 border-2 bg-blue-900 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                            {products[items].color.includes('Black') && <button className=" mx-1 border-2 bg-black border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                            {products[items].color.includes('Green') && <button className=" mx-1 border-2 bg-green-900 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                            {products[items].color.includes('Yellow') && <button className=" mx-1 border-2 bg-yellow-400 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                            {products[items].color.includes('Purple') && <button className=" mx-1 border-2 bg-purple-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                          </div>
                         </div>
-                        <div className="mt-3">
-                          {products[items].color.includes('Red') && <button className=" mx-1 border-2 bg-red-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
-                          {products[items].color.includes('Blue') && <button className=" mx-1 border-2 bg-blue-900 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
-                          {products[items].color.includes('Black') && <button className=" mx-1 border-2 bg-black border-black rounded-full w-6 h-6 focus:outline-none"></button>}
-                          {products[items].color.includes('Green') && <button className=" mx-1 border-2 bg-green-900 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
-                          {products[items].color.includes('Yellow') && <button className=" mx-1 border-2 bg-yellow-400 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
-                          {products[items].color.includes('Purple') && <button className=" mx-1 border-2 bg-purple-500 border-black rounded-full w-6 h-6 focus:outline-none"></button>}
-                        </div>
-                      </div>
+                      </a>
                     </Link>
                   </div>
                 )

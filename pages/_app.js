@@ -2,8 +2,13 @@ import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import '@/styles/globals.css'
 import Router, { useRouter } from 'next/router'
+
 import LoadingBar from 'react-top-loading-bar'
 import { useEffect, useState } from 'react'
+import theme from "../src/theme/theme";
+import { ThemeProvider } from "@mui/material/styles";
+import FullLayout from "../src/layouts/FullLayout";
+
 
 export default function App({ Component, pageProps }) {
   const [Cart, setCart] = useState({})
@@ -34,7 +39,7 @@ export default function App({ Component, pageProps }) {
       setUser({ token: user.token, email: user.email })
     }
 
-  }, [Router.query]) // for re rendering the application on changing of the url of the application so that we haven't to re load the website again and again to change the things.
+  }, [Router.events, Router.query]) // for re rendering the application on changing of the url of the application so that we haven't to re load the website again and again to change the things.
 
   // saveCart item is used for saving the item in the localStorage so that  the given items should persist on the reloading of the webpage.
   const saveCart = (myCart) => {
@@ -123,8 +128,8 @@ export default function App({ Component, pageProps }) {
         waitingTime={400}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Navbar key={key} logout={logout} user={user} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
-      <Component user={user} buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
+        <Navbar key={key} logout={logout} user={user} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
+          <Component user={user} buyNow={buyNow} cart={Cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart}  {...pageProps} subTotal={subTotal} />
       <Footer />
     </>
   )

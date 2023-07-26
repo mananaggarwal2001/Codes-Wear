@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,7 +20,7 @@ const myaccount = (props) => {
         e.preventDefault()
         const parsedData = await JSON.parse(localStorage.getItem('myuser'))
         const data = { token: parsedData.token, email, address, pincode, phoneNumber, name }
-        const response = await fetch("http://localhost:3000/api/updateuser", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateuser`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -40,7 +41,7 @@ const myaccount = (props) => {
 
             const parsedData = await JSON.parse(localStorage.getItem('myuser'))
             const data = { token: parsedData.token, password, confirmpassword, newpassword }
-            const response = await fetch("http://localhost:3000/api/updatepassword", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updatepassword`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -81,7 +82,7 @@ const myaccount = (props) => {
 
     const fetchUserDetails = async (token) => {
         const data = { token }
-        const response = await fetch("http://localhost:3000/api/updateuser", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateuser`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

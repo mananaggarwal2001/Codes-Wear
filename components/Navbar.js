@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import logo from '../pages/Images/logo.png'
@@ -5,9 +6,8 @@ import Link from 'next/link'
 import { AiOutlineShoppingCart, AiFillCloseCircle, AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import { MdAccountCircle } from 'react-icons/md'
 import { useRef } from 'react'
-import { BsFillBagCheckFill } from 'react-icons/Bs'
+import { BsFillBagCheckFill } from 'react-icons/bs'
 import { useRouter } from 'next/router'
-import Error from 'next/error'
 const Navbar = (props) => {
     const { logout, cart, addToCart, removeFromCart, clearCart, subTotal, user } = props
     const ref = useRef()
@@ -36,15 +36,15 @@ const Navbar = (props) => {
     return (
         <div className='flex flex-col md:flex-row md:justify-start  justify-center items-center py-3 shadow-lg w-full bg-white z-10 fixed top-0'>
             <div className="logo mr-auto md:mx-5">
-                <Link href={'/'}><Image src={logo} width={200} height={40} alt='codewear Logo' /></Link>
+                <Link href={'/'}><a> <Image src={logo} width={200} height={40} alt='codewear Logo' /></a></Link>
             </div>
 
             <div className="nav">
                 <ul className='flex items-center space-x-3 font-bold text-md md:text-md'>
-                    <Link href={'/websitepages/tshirts'}><li className='hover:underline'>TShirts</li></Link>
-                    <Link href={'/websitepages/hoodies'}><li className='hover:underline'>Hoodies</li></Link>
-                    <Link href={'/websitepages/stickers'}><li className='hover:underline'>Stickers</li></Link>
-                    <Link href={'/websitepages/mugs'}><li className='hover:underline'>Mugs</li></Link>
+                    <Link href={'/websitepages/tshirts'}><a className='hover:underline cursor-pointer'>TShirts</a></Link>
+                    <Link href={'/websitepages/hoodies'}><a className='hover:underline'>Hoodies</a></Link>
+                    <Link href={'/websitepages/stickers'}><a className='hover:underline'>Stickers</a></Link>
+                    <Link href={'/websitepages/mugs'}><a className='hover:underline'>Mugs</a></Link>
                 </ul>
             </div>
             <div className="cart flex  absolute right-0 mx-3 top-5 space-x-4 items-center">
@@ -53,8 +53,20 @@ const Navbar = (props) => {
                     {user.token && <MdAccountCircle onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className=' text-xl md:text-3xl cursor-pointer' />}
                     {dropdown && <div onMouseOver={() => setdropdown(true)} onMouseLeave={() => setdropdown(false)} className="absolute right-12 bg-pink-400 top-7 px-5 rounded-md w-40  cursor-pointer">
                         <ul>
-                            <Link href={'/websitepages/myaccount'}><li className=' my-3 hover:text-pink-500 font-semibold text-white'>My Accounts</li></Link>
-                            <Link href={'/websitepages/orders'}><li className='text-white my-3 hover:text-pink-500 font-semibold'>My Orders</li>
+                            <Link href={'/websitepages/myaccount'}>
+                                <a>
+                                    <li className=' my-3 hover:text-pink-500 font-semibold text-white'>My Accounts</li>
+                                </a>
+                            </Link>
+                            <Link href={'/websitepages/orders'}>
+                                <a>
+                                    <li className='text-white my-3 hover:text-pink-500 font-semibold'>My Orders</li>
+                                </a>
+                            </Link>
+                            <Link href={'/websitepages/admin/adminpanel'}>
+                                <a>
+                                    <li className='text-white my-3 hover:text-pink-500 font-semibold'>Admin Panel</li>
+                                </a>
                             </Link>
                             <li onClick={logout} className=' my-3 hover:text-pink-500 font-semibold text-white'>Logout</li>
                         </ul>

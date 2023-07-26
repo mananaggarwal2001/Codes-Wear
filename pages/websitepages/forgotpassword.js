@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from 'next/image'
 import Logo from '../Images/CodewearTshirtLogo.png'
 import Link from 'next/link'
@@ -15,7 +16,7 @@ const forgotpassword = () => {
         if (localStorage.getItem('myuser')) {
             Router.push('/')
         }
-    }, [])
+    }, [Router])
     const handleChange = (e) => {
         if (e.target.name === 'email') {
             setemail(e.target.value)
@@ -30,7 +31,7 @@ const forgotpassword = () => {
 
     const sendResetEmail = async () => {
         const data = { email, sendMail: true }
-        const response = await fetch("http://localhost:3000/api/forgotpassword", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/forgotpassword`, {
             method: "POST", // or 'PUT'
             headers: {
                 "Content-Type": "application/json",
@@ -51,7 +52,7 @@ const forgotpassword = () => {
 
             const data = { nPassword, sendMail: false, token: token, secret: secret }
             console.log(secret);
-            const response = await fetch("http://localhost:3000/api/forgotpassword", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/forgotpassword`, {
                 method: "POST", // or 'PUT'
                 headers: {
                     "Content-Type": "application/json",

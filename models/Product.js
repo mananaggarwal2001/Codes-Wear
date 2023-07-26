@@ -12,11 +12,13 @@ const productSchema = new mongoose.Schema({
         unique: true
     },
     desc: {
-        type: String, required: true
+        type: String,
+        required: true
     },
     img: {
         type: String,
-        required: true
+        required: true,
+        default: 'https://m.media-amazon.com/images/I/71ISzvgAl2L._UX466_.jpg'
     },
     category: {
         type: String,
@@ -34,7 +36,8 @@ const productSchema = new mongoose.Schema({
     },
     avaiableQty: {
         type: Number,
-        required: true
+        required: true,
+        default: 1
     }
 
 }, { timestamps: true })

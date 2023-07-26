@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import connectToMongo from '@/middleware/mongooose';
+/* eslint-disable react-hooks/rules-of-hooks */
 import Order from '@/models/Order';
 connectToMongo()
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
-function Myorder(props) {
+const Myorder = (props) => {
     const { order, clearCart } = props;
     const orderproducts = order.products;
     const router = useRouter()
@@ -28,14 +29,12 @@ function Myorder(props) {
                             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">Order Id: {order.orderID}</h1>
 
                             <p className="leading-relaxed mb-4">Your Order has been successfully placed. Your Payment Status is <strong>{order.status}</strong></p>
-                            <p className="leading-relaxed mb-4">Order Created At: <strong>{new Date(order.createdAt).toLocaleDateString('en-in',{weekday:'long',year:'numeric', month:'long', day:"numeric"})}</strong></p>
+                            <p className="leading-relaxed mb-4">Order Created At: <strong>{new Date(order.createdAt).toLocaleDateString('en-in', { weekday: 'long', year: 'numeric', month: 'long', day: "numeric" })}</strong></p>
                             <div class="flex my-4 justify-between">
                                 <a class="flex-grow py-2 text-lg px-1">Items Description</a>
                                 <a class="flex-grow py-2 text-lg px-1">Quantity</a>
                                 <a class="flex-grow py-2 text-lg px-1">Items Total</a>
                             </div>
-
-
                             {Object.keys(orderproducts).map((item) => {
 
                                 return (
@@ -60,8 +59,6 @@ function Myorder(props) {
         </div>
     )
 }
-
-
 
 
 export async function getServerSideProps(context) {
