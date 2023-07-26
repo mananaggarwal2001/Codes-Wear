@@ -64,7 +64,7 @@ const forgotpassword = () => {
             if (finalresponse.success) {
                 toast.success(finalresponse.message)
                 setTimeout(() => {
-                    Router.push('/');
+                    Router.push('/login');
                 }, 2500);
             } else {
                 toast.error(finalresponse.error)
